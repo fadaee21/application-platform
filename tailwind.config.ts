@@ -9,6 +9,9 @@ const config: Config = {
   theme: {
     extend: {},
   },
+  daisyui: {
+    themes: ["light", "dark"],
+  },
 
   plugins: [typography, forms, daisyui],
 } satisfies Config;

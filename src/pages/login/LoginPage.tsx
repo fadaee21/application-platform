@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import { useTheme } from "@/hooks/useTheme";
+import { useState } from "react";
 
 const LoginPage: React.FC = () => {
   const [number, setNumber] = useState("");
@@ -7,6 +8,10 @@ const LoginPage: React.FC = () => {
     event.preventDefault();
     console.log(number);
   };
+
+  const { theme, toggleTheme } = useTheme();
+
+
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
@@ -23,6 +28,9 @@ const LoginPage: React.FC = () => {
           />
           <button className="btn btn-primary"> ورود</button>
         </form>
+        <button onClick={toggleTheme}>
+          Switch to {theme === "light" ? "dark" : "light"} mode
+        </button>
       </div>
     </div>
   );
