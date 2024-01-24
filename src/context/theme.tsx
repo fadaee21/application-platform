@@ -6,7 +6,7 @@ export const ThemeProvider: FC<IThemeProviderProps> = ({ children }) => {
   const [theme, setTheme] = useState<string>(
     localStorage.getItem("theme") || "light"
   );
-
+  const isDark = theme === "dark";
   useEffect(() => {
     localStorage.setItem("theme", theme);
     if (theme === "dark") {
@@ -21,7 +21,7 @@ export const ThemeProvider: FC<IThemeProviderProps> = ({ children }) => {
   };
 
   return (
-    <ThemeContext.Provider value={{ theme, toggleTheme }}>
+    <ThemeContext.Provider value={{ isDark, toggleTheme }}>
       {children}
     </ThemeContext.Provider>
   );

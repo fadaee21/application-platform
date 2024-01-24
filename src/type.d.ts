@@ -1,5 +1,5 @@
 interface IThemeContext {
-  theme: string;
+  isDark: boolean;
   toggleTheme: () => void;
 }
 

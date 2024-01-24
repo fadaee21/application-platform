@@ -1,30 +1,27 @@
-# React + TypeScript + Vite
+### Light Mode:
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+- **Main Background:** `bg-white`
+- **General Text Color:** `text-gray-900`
+- **Input Fields Background:** `bg-gray-100`
+- **Input Text Color:** `text-gray-900`
+- **Input Placeholder Text Color:** `placeholder:text-gray-400`
+- **Focus Ring Color:** `focus:ring-indigo-600`
+- **Button Background:** `bg-indigo-600`
+- **Button Text Color:** `text-white`
+- **Button Hover Background:** `hover:bg-indigo-500`
+- **Link Text Color:** `text-indigo-600`
+- **Link Hover Text Color:** `hover:text-indigo-500`
 
-Currently, two official plugins are available:
+### Dark Mode:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
-
-- Configure the top-level `parserOptions` property like this:
-
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
-
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+- **Main Background:** `dark:bg-gray-800`
+- **General Text Color:** `dark:text-white`
+- **Input Fields Background:** `dark:bg-gray-700`
+- **Input Text Color:** `dark:text-white`
+- **Input Placeholder Text Color:** `placeholder:text-gray-400`
+- **Focus Ring Color:** `dark:focus:ring-indigo-400`
+- **Button Background:** `dark:bg-indigo-400`
+- **Button Text Color:** `dark:text-gray-900`
+- **Button Hover Background:** `dark:hover:bg-indigo-300`
+- **Link Text Color:** `dark:text-indigo-400`
+- **Link Hover Text Color:** `dark:hover:text-indigo-300`
