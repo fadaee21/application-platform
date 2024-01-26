@@ -25,3 +25,4 @@
 - **Button Hover Background:** `dark:hover:bg-indigo-300`
 - **Link Text Color:** `dark:text-indigo-400`
 - **Link Hover Text Color:** `dark:hover:text-indigo-300`
+

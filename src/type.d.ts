@@ -3,6 +3,16 @@ interface IThemeContext {
   toggleTheme: () => void;
 }
 
-interface IThemeProviderProps {
+type TChildren = {
   children: ReactNode;
+};
+interface IAuthState {
+  name: string;
+  username: string;
+  role: string;
+  isAuthorized: boolean;
+}
+interface IAuthContext{
+  auth: IAuthState;
+  setAuth: Dispatch<SetStateAction<IAuthState>>
 }

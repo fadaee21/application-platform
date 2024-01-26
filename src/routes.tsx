@@ -3,28 +3,54 @@ import RootLayout from "@components/layout/RootLayout";
 import DashboardPage from "@pages/dashboard/DashboardPage";
 import LoginPage from "@pages/login/LoginPage";
 import Cookies from "js-cookie";
+import TestPage from "./pages/TestPage";
+import JustAdmin from "./components/hocAuthorization/JustAdmin";
+import TestPageUser from "./pages/TestPageUser";
+import JustUser from "./components/hocAuthorization/JustUser";
 
 const router = createBrowserRouter([
   {
     id: "root",
     path: "/",
-
+    loader: protectedLoader,
     element: <RootLayout />,
     children: [
       {
-        index: true,
-        element: <DashboardPage />,
-        loader: protectedLoader,
+        path: "admin",
+        element: <JustAdmin />,
+        children: [
+          {
+            index: true,
+            element: <DashboardPage />,
+          },
+          {
+            path: "test",
+            element: <TestPage />,
+          },
+        ]
+      },
+      {
+        path: "user",
+        element: <JustUser />,
+        children: [
+          {
+            index: true,
+            element: <TestPageUser />,
+          },
+        ]
       },
     ],
-  },  {
+  },
+  {
     path: "login",
     loader: loginLoader,
     element: <LoginPage />,
   },
 ]);
 
+
 export default router;
+
 
 
 function protectedLoader({ request }: LoaderFunctionArgs) {

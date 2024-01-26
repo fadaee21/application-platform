@@ -9,6 +9,7 @@ export default defineConfig({
       "@": "/src",
       "@components": "/src/components",
       "@pages": "/src/pages",
+      "@hooks": "src/hooks",
       "@styles": "/src/styles",
       "@types": "/src/type.d.ts",
     },

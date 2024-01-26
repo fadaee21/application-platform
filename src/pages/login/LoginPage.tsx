@@ -1,45 +1,35 @@
 import MySwitch from "@/components/ui-kit/MySwitch";
-import { phoneSchema } from "@/validator/phone";
-import alertErr from "@/validator/showError";
+import useLogin from "@/hooks/useLogin";
+
 import { useEffect, useState } from "react";
 export default function LoginPage() {
   const [phoneNumber, setPhoneNumber] = useState("");
-  const [errRes, setErrRes] = useState<string[]>();
   const [phoneCounter, setPhoneCounter] = useState(0);
-
+  const { errRes, handleSubmit } = useLogin(phoneNumber)
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPhoneNumber(event.target.value);
   };
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    try {
-      phoneSchema.parse(phoneNumber);
-    } catch (error) {
-      const err = alertErr(error);
-      setErrRes(err);
-      setTimeout(() => setErrRes([]), 3000);
-    }
-  };
+
   useEffect(() => {
     setPhoneCounter(phoneNumber.length);
   }, [phoneNumber.length]);
 
   return (
     <>
-      <div className="min-h-screen flex items-center justify-center dark:bg-gray-900 bg-gray-200">
-        <div className="w-9/12 max-w-xl mx-auto p-8 bg-white dark:bg-gray-800 shadow-md rounded-md">
-          <div className="mx-auto w-full max-w-sm">
+      <div className="flex items-center justify-center min-h-screen bg-gray-200 dark:bg-gray-900">
+        <div className="w-9/12 max-w-xl p-8 mx-auto bg-white rounded-md shadow-md dark:bg-gray-800">
+          <div className="w-full max-w-sm mx-auto">
             <img
-              className="mx-auto h-12 w-auto"
+              className="w-auto h-12 mx-auto"
               src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
               alt="Your Company"
             />
-            <h2 className="mt-10 text-center text-3xl font-bold leading-9 tracking-tight dark:text-white">
+            <h2 className="mt-10 text-3xl font-bold leading-9 tracking-tight text-center dark:text-white">
               برای دریافت کد فعال سازی، شماره تماس خود را وارد کنید
             </h2>
           </div>
 
-          <div className="mt-20 mx-auto w-full max-w-sm">
+          <div className="w-full max-w-sm mx-auto mt-20">
             <form className="space-y-6" onSubmit={handleSubmit}>
               <div>
                 <label
@@ -58,33 +48,25 @@ export default function LoginPage() {
                     type="tel"
                     autoComplete="tel"
                     required
-                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 dark:text-white 
-                      shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-gray-600 
-                      placeholder:text-gray-400 bg-gray-100 dark:bg-gray-700
-                      focus:ring-2 focus:ring-inset focus:ring-indigo-600 dark:focus:ring-indigo-400 
-                      text-sm leading-6"
+                    className="w-full rounded-md border-0 py-1.5 text-gray-900 dark:text-white block shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-gray-600 placeholder:text-gray-400 bg-gray-100 dark:bg-gray-700 focus:ring-2 focus:ring-inset focus:ring-indigo-600 dark:focus:ring-indigo-400 text-sm leading-6"
                   />
                 </div>
               </div>
 
               <button
                 type="submit"
-                className="flex w-full justify-center rounded-md bg-indigo-600 dark:bg-indigo-400 
-                    px-4 py-2 text-sm font-semibold leading-6 text-white dark:text-gray-900 
-                    shadow-sm hover:bg-indigo-500 dark:hover:bg-indigo-300 
-                    focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 
-                    focus-visible:outline-indigo-600 dark:focus-visible:outline-indigo-400"
+                className="flex justify-center w-full px-4 py-2 text-sm font-semibold leading-6 text-white bg-indigo-600 rounded-md shadow-sm dark:bg-indigo-400 dark:text-gray-900 hover:bg-indigo-500 dark:hover:bg-indigo-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 dark:focus-visible:outline-indigo-400"
               >
                 ورود
               </button>
             </form>
-            <div className="w-full text-left mt-4 ">
-              <span className=" w-10 inline-flex items-center justify-center rounded-md bg-gray-50 px-2 py-1 text-xs font-medium text-gray-600 ring-1 ring-inset ring-gray-500/10">
+            <div className="w-full mt-4 text-left ">
+              <span className="inline-flex items-center justify-center w-10 px-2 py-1 text-xs font-medium text-gray-600 rounded-md bg-gray-50 ring-1 ring-inset ring-gray-500/10">
                 11/{phoneCounter}
               </span>
             </div>
             {errRes && errRes.length > 0 ? (
-              <ul className="max-h-16 mt-4 p-2 bg-rose-50 dark:bg-rose-950 rounded-lg text-xs font-medium shadow-sm list-disc list-inside">
+              <ul className="p-2 mt-4 text-xs font-medium list-disc list-inside rounded-lg shadow-sm max-h-16 bg-rose-50 dark:bg-rose-950">
                 {errRes.map((error, index) => (
                   <li className="text-rose-950 dark:text-rose-50" key={index}>
                     {error}
@@ -92,10 +74,10 @@ export default function LoginPage() {
                 ))}
               </ul>
             ) : (
-              <div className="h-10 mt-1 w-full" />
+              <div className="w-full h-10 mt-1" />
             )}
           </div>
-          <div className="mt-8 mx-auto w-full max-w-sm">
+          <div className="w-full max-w-sm mx-auto mt-8">
             <MySwitch />
           </div>
         </div>
@@ -104,7 +86,7 @@ export default function LoginPage() {
   );
 }
 
-/* <p className="mt-10 text-center text-sm text-gray-500">
+/* <p className="mt-10 text-sm text-center text-gray-500">
               Not a member?{" "}
               <a
                 href="#"
