@@ -1,0 +1,29 @@
+{
+    "user": [
+      {
+        "id": "1",
+        "name": "John Doe",
+        "username": "johndoe",
+        "password": "password1",
+        "role": "admin",
+        "isAuthorized": true
+      },
+      {
+        "id": "2",
+        "name": "Jane Smith",
+        "username": "janesmith",
+        "password": "password2",
+        "role": "user",
+        "isAuthorized": false
+      },
+      {
+        "id": "3",
+        "name": "Bob Johnson",
+        "username": "bobjohnson",
+        "password": "password3",
+        "role": "guest",
+        "isAuthorized": false
+      }
+    ]
+  }
+  

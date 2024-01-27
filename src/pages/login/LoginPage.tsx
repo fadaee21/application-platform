@@ -19,13 +19,13 @@ export default function LoginPage() {
       <div className="flex items-center justify-center min-h-screen bg-gray-200 dark:bg-gray-900">
         <div className="w-9/12 max-w-xl p-8 mx-auto bg-white rounded-md shadow-md dark:bg-gray-800">
           <div className="w-full max-w-sm mx-auto">
-            <img
+            {/* <img
               className="w-auto h-12 mx-auto"
               src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
               alt="Your Company"
-            />
+            /> */}
             <h2 className="mt-10 text-3xl font-bold leading-9 tracking-tight text-center dark:text-white">
-              برای دریافت کد فعال سازی، شماره تماس خود را وارد کنید
+              {/* برای دریافت کد فعال سازی، شماره تماس خود را وارد کنید */}
             </h2>
           </div>
 

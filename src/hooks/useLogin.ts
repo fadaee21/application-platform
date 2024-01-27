@@ -28,7 +28,7 @@ const useLogin = (phoneNumber: string) => {
           secure: true,
           sameSite: "strict",
         });
-        const firstUser = response.data.data.find((user: any) => user.id === 2);
+        const firstUser = response.data.find((user: IAuthState) => user.id === "1");
         setAuth(firstUser);
         console.log(`/${firstUser.role}`, "aaaaaaaaaaaaaaaaaaaaaa");
         console.log({ from });
