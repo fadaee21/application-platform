@@ -15,7 +15,6 @@ const useLogin = (phoneNumber: string) => {
   const { setAuth } = useAuth();
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-
     try {
       phoneSchema.parse(phoneNumber);
       const response = await getData("user");
@@ -28,16 +27,16 @@ const useLogin = (phoneNumber: string) => {
           secure: true,
           sameSite: "strict",
         });
-        const firstUser = response.data.data.find((user: any) => user.id === 2);
+        const firstUser = response.data.find(
+          (user: IAuthState) => user.id === "1"
+        );
         setAuth(firstUser);
-        console.log(`/${firstUser.role}`, "aaaaaaaaaaaaaaaaaaaaaa");
-        console.log({ from });
-        navigate(from || `/${firstUser.role}`);
+        navigate(from || `/${firstUser.role}`, { replace: true });
       }
     } catch (error) {
       const err = alertErr(error);
       setErrRes(err);
-      setTimeout(() => setErrRes([]), 4000);
+      setTimeout(() => setErrRes([]), 6000);
     }
   };
 
