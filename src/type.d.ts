@@ -16,3 +16,4 @@ interface IAuthContext {
   auth: IAuthState | null;
   setAuth: Dispatch<SetStateAction<IAuthState>>;
 }
+

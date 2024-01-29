@@ -10,9 +10,9 @@ function DashboardPage() {
       alert("You clicked on: " + count);
     }, 1000);
   }
-console.log({auth})
+// console.log({auth})
   return (
-    <div>
+    <div className="w-full h-full border">
       <p>You clicked {count} times</p>
       <button onClick={() => setCount(count + 1)}>Click me</button>/*/-*/-*/-*/-*/-*
       <button onClick={handleAlertClick}>Show alert</button>

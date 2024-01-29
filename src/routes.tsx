@@ -3,10 +3,12 @@ import RootLayout from "@components/layout/RootLayout";
 import DashboardPage from "@pages/dashboard/DashboardPage";
 import LoginPage from "@pages/login/LoginPage";
 import Cookies from "js-cookie";
-import TestPage from "./pages/TestPage";
 import JustAdmin from "./components/hocAuthorization/JustAdmin";
 import TestPageUser from "./pages/TestPageUser";
 import JustUser from "./components/hocAuthorization/JustUser";
+import TeamPage from "./pages/team/TeamPage";
+import ProjectsPage from "./pages/projects/ProjectsPage";
+import SettingPage from "./pages/setting/SettingPage";
 
 const router = createBrowserRouter([
   {
@@ -24,9 +26,13 @@ const router = createBrowserRouter([
             element: <DashboardPage />,
           },
           {
-            path: "test",
-            element: <TestPage />,
+            path: "team",
+            element: <TeamPage />,
           },
+          {
+            path: "projects",
+            element: <ProjectsPage />,
+          }
         ]
       },
       {
@@ -36,8 +42,12 @@ const router = createBrowserRouter([
           {
             index: true,
             element: <TestPageUser />,
-          },
+          }
         ]
+      },
+      {
+        path: "settings",
+        element: <SettingPage />,
       },
     ],
   },
