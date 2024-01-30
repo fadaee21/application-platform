@@ -28,7 +28,7 @@ const useLogin = (phoneNumber: string) => {
           sameSite: "strict",
         });
         const firstUser = response.data.find(
-          (user: IAuthState) => user.id === "2"
+          (user: IAuthState) => user.id === "1"
         );
         setAuth(firstUser);
         navigate(from || `/${firstUser.role}`, { replace: true });
