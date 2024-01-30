@@ -1,4 +1,8 @@
-import { LoaderFunctionArgs, createBrowserRouter, redirect } from "react-router-dom";
+import {
+  LoaderFunctionArgs,
+  createBrowserRouter,
+  redirect,
+} from "react-router-dom";
 import RootLayout from "@components/layout/RootLayout";
 import DashboardPage from "@pages/dashboard/DashboardPage";
 import LoginPage from "@pages/login/LoginPage";
@@ -32,8 +36,8 @@ const router = createBrowserRouter([
           {
             path: "projects",
             element: <ProjectsPage />,
-          }
-        ]
+          },
+        ],
       },
       {
         path: "user",
@@ -42,8 +46,8 @@ const router = createBrowserRouter([
           {
             index: true,
             element: <TestPageUser />,
-          }
-        ]
+          },
+        ],
       },
       {
         path: "settings",
@@ -52,31 +56,31 @@ const router = createBrowserRouter([
     ],
   },
   {
-    path: "login",
-    loader: loginLoader,
+    index: true,
+    // loader: loginLoader,
     element: <LoginPage />,
   },
 ]);
 
-
 export default router;
-
-
 
 function protectedLoader({ request }: LoaderFunctionArgs) {
   const token = Cookies.get("token");
   if (!token) {
     const params = new URLSearchParams();
     params.set("from", new URL(request.url).pathname);
-    return redirect("/login?" + params.toString());
+    return redirect("/?" + params.toString());
   }
   return null;
 }
 
-async function loginLoader() {
-  const token = Cookies.get("token");
-  if (token) {
-    return redirect("/");
-  }
-  return null;
-}
+// async function loginLoader() {
+//   // Removed the loader for new instances
+//   // Currently, users can re-access the login even after they've logged in
+//   // To prevent this, I need to extract the role from the token and redirect based on the role
+//   const token = Cookies.get("token");
+//   if (token) {
+//     return redirect("/role");
+//   }
+//   return null;
+// }

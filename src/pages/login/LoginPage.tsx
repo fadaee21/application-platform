@@ -5,7 +5,8 @@ import { useEffect, useState } from "react";
 export default function LoginPage() {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [phoneCounter, setPhoneCounter] = useState(0);
-  const { errRes, handleSubmit } = useLogin(phoneNumber)
+  const { errRes, handleSubmit } = useLogin(phoneNumber);
+
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPhoneNumber(event.target.value);
   };
@@ -24,7 +25,7 @@ export default function LoginPage() {
               src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
               alt="Your Company"
             />
-            <h2 className="mt-10 text-3xl font-bold leading-9 tracking-tight text-center dark:text-white">
+            <h2 className="mt-10 text-3xl font-bold leading-9 tracking-tight text-center dark:text-slate-400">
               برای دریافت کد فعال سازی، شماره تماس خود را وارد کنید
             </h2>
           </div>
@@ -34,7 +35,7 @@ export default function LoginPage() {
               <div>
                 <label
                   htmlFor="tel"
-                  className="block text-sm font-medium leading-6 dark:text-white"
+                  className="block text-sm font-medium leading-6 dark:text-slate-400"
                 >
                   تلفن همراه
                 </label>
@@ -48,7 +49,7 @@ export default function LoginPage() {
                     type="tel"
                     autoComplete="tel"
                     required
-                    className="w-full rounded-md border-0 py-1.5 text-gray-900 dark:text-white block shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-gray-600 placeholder:text-gray-400 bg-gray-100 dark:bg-gray-700 focus:ring-2 focus:ring-inset focus:ring-indigo-600 dark:focus:ring-indigo-400 text-sm leading-6"
+                    className="w-full rounded-md border-0 py-1.5 text-gray-900 dark:text-slate-400 block shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-gray-600 placeholder:text-gray-400 bg-gray-100 dark:bg-gray-700 focus:ring-2 focus:ring-inset focus:ring-indigo-600 dark:focus:ring-indigo-400 text-sm leading-6"
                   />
                 </div>
               </div>

@@ -9,7 +9,7 @@ function RootLayout() {
   const handleLogout = () => {
     Cookies.remove("token");
     setAuth(null)
-    navigate("/login", { replace: true });
+    navigate("/", { replace: true });
   };
   return (
     <Sidebar>
