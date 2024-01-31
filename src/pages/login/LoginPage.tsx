@@ -1,3 +1,5 @@
+import { PrimaryButtons } from "@/components/ui-kit/Buttons";
+import Input from "@/components/ui-kit/Input";
 import MySwitch from "@/components/ui-kit/MySwitch";
 import useLogin from "@/hooks/useLogin";
 
@@ -25,7 +27,7 @@ export default function LoginPage() {
               src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
               alt="Your Company"
             />
-            <h2 className="mt-10 text-3xl font-bold leading-9 tracking-tight text-center dark:text-slate-400">
+            <h2 className="mt-10 text-3xl font-bold leading-9 tracking-tight text-center text-gray-900 dark:text-slate-300">
               برای دریافت کد فعال سازی، شماره تماس خود را وارد کنید
             </h2>
           </div>
@@ -35,12 +37,12 @@ export default function LoginPage() {
               <div>
                 <label
                   htmlFor="tel"
-                  className="block text-sm font-medium leading-6 dark:text-slate-400"
+                  className="block text-sm font-medium leading-6 text-gray-900 dark:text-slate-300"
                 >
                   تلفن همراه
                 </label>
                 <div className="mt-2">
-                  <input
+                  <Input
                     maxLength={11}
                     value={phoneNumber}
                     onChange={handleChange}
@@ -49,20 +51,14 @@ export default function LoginPage() {
                     type="tel"
                     autoComplete="tel"
                     required
-                    className="w-full rounded-md border-0 py-1.5 text-gray-900 dark:text-slate-400 block shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-gray-600 placeholder:text-gray-400 bg-gray-100 dark:bg-gray-700 focus:ring-2 focus:ring-inset focus:ring-indigo-600 dark:focus:ring-indigo-400 text-sm leading-6"
                   />
                 </div>
               </div>
 
-              <button
-                type="submit"
-                className="flex justify-center w-full px-4 py-2 text-sm font-semibold leading-6 text-white bg-indigo-600 rounded-md shadow-sm dark:bg-indigo-400 dark:text-gray-900 hover:bg-indigo-500 dark:hover:bg-indigo-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 dark:focus-visible:outline-indigo-400"
-              >
-                ورود
-              </button>
+              <PrimaryButtons type="submit">ورود</PrimaryButtons>
             </form>
             <div className="w-full mt-4 text-left ">
-              <span className="inline-flex items-center justify-center w-10 px-2 py-1 text-xs font-medium text-gray-600 rounded-md bg-gray-50 ring-1 ring-inset ring-gray-500/10">
+              <span className="inline-flex items-center justify-center w-10 px-2 py-1 text-xs font-medium text-gray-600 dark:text-slate-300 rounded-md bg-gray-100 dark:bg-gray-700 ring-1 ring-inset ring-gray-500/10">
                 11/{phoneCounter}
               </span>
             </div>
