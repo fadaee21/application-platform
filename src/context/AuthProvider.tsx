@@ -20,7 +20,7 @@ const AuthProvider: FC<TChildren> = ({ children }) => {
         }
         getUserData()
     }, [])
-
+    // const memoizedVal = useMemo(() => ({ auth, setAuth }), [auth])
 
     return (
         <AuthContext.Provider value={{ auth, setAuth }}>

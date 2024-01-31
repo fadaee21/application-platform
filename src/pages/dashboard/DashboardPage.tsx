@@ -1,4 +1,3 @@
-import MyDropdown from "@/components/ui-kit/Dropdown";
 import { useAuth } from "@/hooks/context/useAuth";
 import { useState } from "react";
 
@@ -13,46 +12,45 @@ function DashboardPage() {
   }
   // console.log({auth})
   return (
-   <>
-      <MyDropdown/>
-    <div className="w-full h-full border">
-      <p>You clicked {count} times</p>
-      <button onClick={() => setCount(count + 1)}>Click me</button>
-      /*/-*/-*/-*/-*/-*
-      <button onClick={handleAlertClick}>Show alert</button>
-      <pre>{JSON.stringify({ auth }, null, 2)}</pre>
-      <p>You clicked {count} times</p>
-      <button onClick={() => setCount(count + 1)}>Click me</button>
-      /*/-*/-*/-*/-*/-*
-      <button onClick={handleAlertClick}>Show alert</button>
-      <pre>{JSON.stringify({ auth }, null, 2)}</pre>
-      <p>You clicked {count} times</p>
-      <button onClick={() => setCount(count + 1)}>Click me</button>
-      /*/-*/-*/-*/-*/-*
-      <button onClick={handleAlertClick}>Show alert</button>
-      <pre>{JSON.stringify({ auth }, null, 2)}</pre>
-      <p>You clicked {count} times</p>
-      <button onClick={() => setCount(count + 1)}>Click me</button>
-      /*/-*/-*/-*/-*/-*
-      <button onClick={handleAlertClick}>Show alert</button>
-      <pre>{JSON.stringify({ auth }, null, 2)}</pre>
-      <p>You clicked {count} times</p>
-      <button onClick={() => setCount(count + 1)}>Click me</button>
-      /*/-*/-*/-*/-*/-*
-      <button onClick={handleAlertClick}>Show alert</button>
-      <pre>{JSON.stringify({ auth }, null, 2)}</pre>
-      <p>You clicked {count} times</p>
-      <button onClick={() => setCount(count + 1)}>Click me</button>
-      /*/-*/-*/-*/-*/-*
-      <button onClick={handleAlertClick}>Show alert</button>
-      <pre>{JSON.stringify({ auth }, null, 2)}</pre>
-      <p>You clicked {count} times</p>
-      <button onClick={() => setCount(count + 1)}>Click me</button>
-      /*/-*/-*/-*/-*/-*
-      <button onClick={handleAlertClick}>Show alert</button>
-      <pre>{JSON.stringify({ auth }, null, 2)}</pre>
-    </div>
-   </>
+    <>
+      <div className="w-full h-full border">
+        <p>You clicked {count} times</p>
+        <button onClick={() => setCount(count + 1)}>Click me</button>
+        /*/-*/-*/-*/-*/-*
+        <button onClick={handleAlertClick}>Show alert</button>
+        <pre>{JSON.stringify({ auth }, null, 2)}</pre>
+        <p>You clicked {count} times</p>
+        <button onClick={() => setCount(count + 1)}>Click me</button>
+        /*/-*/-*/-*/-*/-*
+        <button onClick={handleAlertClick}>Show alert</button>
+        <pre>{JSON.stringify({ auth }, null, 2)}</pre>
+        <p>You clicked {count} times</p>
+        <button onClick={() => setCount(count + 1)}>Click me</button>
+        /*/-*/-*/-*/-*/-*
+        <button onClick={handleAlertClick}>Show alert</button>
+        <pre>{JSON.stringify({ auth }, null, 2)}</pre>
+        <p>You clicked {count} times</p>
+        <button onClick={() => setCount(count + 1)}>Click me</button>
+        /*/-*/-*/-*/-*/-*
+        <button onClick={handleAlertClick}>Show alert</button>
+        <pre>{JSON.stringify({ auth }, null, 2)}</pre>
+        <p>You clicked {count} times</p>
+        <button onClick={() => setCount(count + 1)}>Click me</button>
+        /*/-*/-*/-*/-*/-*
+        <button onClick={handleAlertClick}>Show alert</button>
+        <pre>{JSON.stringify({ auth }, null, 2)}</pre>
+        <p>You clicked {count} times</p>
+        <button onClick={() => setCount(count + 1)}>Click me</button>
+        /*/-*/-*/-*/-*/-*
+        <button onClick={handleAlertClick}>Show alert</button>
+        <pre>{JSON.stringify({ auth }, null, 2)}</pre>
+        <p>You clicked {count} times</p>
+        <button onClick={() => setCount(count + 1)}>Click me</button>
+        /*/-*/-*/-*/-*/-*
+        <button onClick={handleAlertClick}>Show alert</button>
+        <pre>{JSON.stringify({ auth }, null, 2)}</pre>
+      </div>
+    </>
   );
 }
 
