@@ -1,31 +1,24 @@
-import { getData } from "@/services/axios";
-import Cookies from "js-cookie";
-import { createContext, FC, useEffect, useState } from "react";
+import useObjectLocalStorage from "@/hooks/useObjectLocalStorage";
+import { createContext, useState } from "react";
 
-export const AuthContext = createContext<IAuthContext | undefined>(undefined);
 
-const AuthProvider: FC<TChildren> = ({ children }) => {
-    const [auth, setAuth] = useState<IAuthState | null>(null)
-    useEffect(() => {
-        const getUserData = async () => {
-            const token = Cookies.get("token");
-            if (token) {
-                const response = await getData("user");
-                if (response.status === 200) {
-                    const firstUser = response.data.find((user: IAuthState) => user.id === "1");
-                    setAuth(firstUser);
-                    console.log("again data fetch in AuthProvider", firstUser)
-                }
-            }
-        }
-        getUserData()
-    }, [])
-    // const memoizedVal = useMemo(() => ({ auth, setAuth }), [auth])
+
+const AuthContext = createContext<AuthContextType | undefined>(undefined);
+
+
+
+export const AuthProvider = ({ children }: TChildren) => {
+    const [auth, setAuth] = useState<IAuth | null>(null);
+    // const [persist, setPersist] = useState<boolean>(JSON.parse(localStorage.getItem("persist") || "false"));
+    const [persist, setPersist] = useObjectLocalStorage("persist", true)
+
+
 
     return (
-        <AuthContext.Provider value={{ auth, setAuth }}>
+        <AuthContext.Provider value={{ auth, setAuth, persist, setPersist }}>
             {children}
         </AuthContext.Provider>
-    );
-};
-export default AuthProvider
+    )
+}
+
+export default AuthContext;

@@ -1,42 +1,29 @@
-- **body:** `bg-white dark:bg-gray-800`
-- **Text:** `text-gray-900 dark:text-slate-300`
-- **Text Hover:** `hover:text-slate-900 hover:dark:text-slate-50`
-- **ring:** `ring-2 ring-indigo-400 dark:ring-indigo-500`
+## Background Colors
 
-- **Error text:** `text-rose-950 dark:text-rose-50`
-- **Error background:** ` bg-rose-50 dark:bg-rose-950`
-## primary button
+- **body:** `bg-slate-50 dark:bg-slate-900`
+- **sidebar-header:** `bg-slate-50 dark:bg-slate-700`
+- **active NavLink:** `bg-gray-300 dark:bg-slate-800/30`
+- **login page:** `bg-gray-200 dark:bg-gray-900`
+- **login form:** `bg-white dark:bg-gray-800`
 
+## Text Colors
 
-- **Link:** ``
-- **Link Hover:** ``
-- **Header:** ``
-- **Footer:** ``
-- **Sidebar:** `bg-slate-50 dark:bg-slate-700`
-- **Borders:** ``
-- **Button Text:** ``
-- **Button Text Hover:** ``
-- **Button Text Active:** ``
+- **Text color in the sidebar:** `text-slate-700 dark:text-slate-300`
+- **Text color of NavLink:** `text-slate-900 dark:text-slate-50`
+- **Text color of active NavLink:** `text-slate-900 dark:text-slate-50`
+- **Text color of hover NavLink:** `text-slate-900 dark:text-slate-50`
 
+## Error
 
-Sure, here are some more creative button color suggestions that you can use in your React Tailwind app:
+- **error messages:** `bg-rose-50 dark:bg-rose-950`
+- **Text color of error messages:** `text-rose-950 dark:text-rose-50`
 
-Dark Mode Primary Button: You can use the following classes for your dark mode primary button:
+## Form
 
-bg-blue-800 text-slate-300 hover:text-slate-900 hover:bg-blue-700
-Dark Mode Secondary Button: You can use the following classes for your dark mode secondary button:
+- **Text color of the checkbox label:** `text-gray-600 dark:text-slate-300`
+- **the checkbox label:** `bg-gray-100 dark:bg-gray-700`
+- **input:** `w-full rounded-md border-0 py-1.5 text-gray-900 dark:text-slate-300 block shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-gray-600 placeholder:text-gray-400 bg-gray-100 dark:bg-gray-700 focus:ring-2 focus:ring-inset  focus:ring-indigo-400 dark:focus:ring-indigo-500 text-sm leading-6`
 
-bg-green-800 text-slate-300 hover:text-slate-900 hover:bg-green-700
-Dark Mode Error Button: You can use the following classes for your dark mode error button:
-
-bg-purple-950 text-yellow-50 hover:text-purple-950 hover:bg-purple-50
-Light Mode Primary Button: You can use the following classes for your light mode primary button:
-
-bg-yellow-400 text-gray-900 hover:text-slate-900 hover:bg-yellow-300
-Light Mode Secondary Button: You can use the following classes for your light mode secondary button:
-
-bg-blue-200 text-gray-900 hover:text-slate-900 hover:bg-blue-300
-Light Mode Error Button: You can use the following classes for your light mode error button:
-
-bg-green-400 text-yellow-50 hover:text-green-400 hover:bg-green-100
-I hope this helps! Let me know if you have any other questions.
+{
+  "refresh_token": "29fe91b5-1842-49a6-ab78-2a9d2a96701f"
+}

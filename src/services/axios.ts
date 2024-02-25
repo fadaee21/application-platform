@@ -1,39 +1,24 @@
 import axios from "axios";
-// import Cookies from "js-cookie";
 
-// axios.defaults.headers.common["Content-Type"] = "application/json";
-
-axios.defaults.baseURL = "http://localhost:8000";
-
-export const userLogin = axios.create({
-  method: "POST",
-  timeout: 5000,
-  // withCredentials: false,
+// const baseURL = "http://78.109.199.178:8082/v5";
+const baseURL = "http://api.platform.nova724.com/v5";
+const instance = axios.create({
+  baseURL,
+  headers: {
+    // "Accept": "application/json",
+    // "Content-Type": "application/x-www-form-urlencoded",
+    // "Access-Control-Allow-Origin": "*",
+    "Content-Type": "application/json",
+  },
+});
+// Create a separate Axios instance for refreshing the token.
+// This instance does not have the response interceptor that handles the 401 status code,
+// thus avoiding the infinite loop scenario when the refresh token is invalid.
+export const instanceRefresh = axios.create({
+  baseURL,
+  headers: {
+    "Content-Type": "application/json",
+  },
 });
 
-export const getData = axios.create({
-  method: "GET",
-});
-
-export const postData = axios.create({
-  method: "POST",
-});
-
-export const removeData = axios.create({
-  method: "DELETE",
-});
-export const editAxios = axios.create({
-  method: "PUT",
-});
-
-// getData.interceptors.request.use(
-//   (request) => {
-//     request.headers.common["Authorization"] = Cookies.get("token");
-//     return request;
-//   },
-//   (error) => {
-//     return Promise.reject(error);
-//   }
-// );
-
-export const fetcherGet = (url: string) => getData(url).then((res) => res.data);
+export default instance;
