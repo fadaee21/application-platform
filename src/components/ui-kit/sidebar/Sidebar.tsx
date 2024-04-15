@@ -1,21 +1,20 @@
-import { NavLink } from "react-router-dom";
 import navList from "@/navList";
 import { useAuth } from "@/hooks/context/useAuth";
-import Dropdown from "./Dropdown";
-import Avatar from "./Avatar";
+import Dropdown from "../Dropdown";
+import Avatar from "../Avatar";
 import Settings from "@/assets/icons/settings.svg?react";
 import Bell from "@/assets/icons/bell.svg?react";
 import Bars3 from "@/assets/icons/bars-3.svg?react";
-import SlideOver from "./SideOver";
+import SlideOver from "./SlideOver";
 import { useState } from "react";
 import ArrowLongRight from "@/assets/icons/arrow-right.svg?react";
+import NavLinkItem from "./NavLinkItem";
 
 function Sidebar({ children }: TChildren) {
   const [open, setOpen] = useState(false);
-
   const { auth } = useAuth();
   const sidebarContent = (
-    <aside className="fixed top-0 bottom-0 z-50 flex flex-col h-screen px-6 pb-4 bg-slate-50 dark:bg-slate-700 w-72 shrink-0">
+    <aside className="fixed top-0 bottom-0 z-10 flex flex-col h-screen px-6 pb-4 bg-slate-50 dark:bg-slate-700 w-72 shrink-0">
       <div className="flex items-center justify-between h-16">
         <img
           src="https://tailwindui.com/img/logos/mark.svg"
@@ -37,12 +36,13 @@ function Sidebar({ children }: TChildren) {
         <ul className="flex flex-col flex-1 gap-y-7 " role="list">
           <li>
             <ul>
-              {navList.reduce((acc: React.ReactNode[], item) => {
-                if (item.role === "SUPERUSER") {
-                  acc.push(<NavLinkItem item={item} setOpen={setOpen} />);
-                }
-                return acc;
-              }, [])}
+              {navList
+                .filter((item) => item.role === auth?.roles)
+                .map((item) => (
+                  <li key={item.id}>
+                    <NavLinkItem item={item} setOpen={setOpen} />
+                  </li>
+                ))}
             </ul>
           </li>
           <li className="mt-auto">
@@ -103,30 +103,3 @@ function Sidebar({ children }: TChildren) {
 }
 
 export default Sidebar;
-
-interface NavLinkItemProps<T> {
-  item: T;
-  setOpen: (open: boolean) => void;
-}
-// TODO: you must remove any, find solution and then test
-const NavLinkItem = ({ item, setOpen }: NavLinkItemProps<any>) => {
-  return (
-    <li key={item.name}>
-      <NavLink
-        onClick={() => setOpen(false)}
-        to={item.href}
-        className={({ isActive }) =>
-          `flex p-2 my-1 text-sm font-semibold leading-6 rounded-md gap-x-3 hover:text-slate-900 hover:dark:text-slate-50  ${
-            isActive
-              ? "bg-gray-300 text-slate-900 dark:text-slate-50 dark:bg-slate-800/30 "
-              : ""
-          }`
-        }
-        end
-      >
-        <item.icon className="w-5 h-5" />
-        {item.name}
-      </NavLink>
-    </li>
-  );
-};

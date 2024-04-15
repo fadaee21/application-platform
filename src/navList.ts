@@ -25,11 +25,11 @@ const navList = [
   },
   {
     id: "1u",
-    name: "داشبورد",
+    name: "تست-پروژه",
     href: "/user",
     index: true,
     icon: Dashboard,
-    role: "user",
+    role: "USER",
   },
   // {
   //   id: "3a",

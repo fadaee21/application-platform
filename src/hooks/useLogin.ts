@@ -7,6 +7,7 @@ import Cookies from "js-cookie";
 import instance from "@/services/axios";
 import { jwtDecode } from "jwt-decode";
 import axios from "axios";
+import { getRole } from "@/helper/getRole";
 
 type TLoginInfo = {
   username: string;
@@ -32,20 +33,25 @@ const useLogin = ({ password: pwd, username: user }: TLoginInfo) => {
         password: pwd,
         username: user,
       });
-      console.log(response);
+      // console.log(response);
       if (response.status === 200) {
         const accessToken = response.data.body.access_token;
         const refreshToken = response.data.body.refresh_token;
-        const userInfo = jwtDecode<MyJwtPayload>(accessToken); // decode your token
+        const userInfo = jwtDecode<MyJwtPayload>(accessToken);
         Cookies.set("refreshToken", refreshToken, {
           path: "/",
           expires: 0.5,
-          // secure: true,
+          secure: true,
           sameSite: "strict",
         });
         console.log({ userInfo });
-        const roles = userInfo.roles;
-        setAuth({ accessToken, roles, user, pwd });
+        const roles = getRole(userInfo.roles);
+        setAuth({
+          accessToken,
+          roles,
+          user, //TODO: it must comes from backend not from login
+          pwd,
+        });
         navigate(from, { replace: true });
       }
       console.log(response.status);
@@ -53,7 +59,6 @@ const useLogin = ({ password: pwd, username: user }: TLoginInfo) => {
       setErrRes([]);
     } catch (error: unknown) {
       if (axios.isAxiosError(error)) {
-        // console.log("error", error.response?.data.body);
         const { code, message } = error.response?.data.body || {};
         if (code === "3000") {
           setErrRes(["پسورد و یا رمز عبور اشتباه است"]);
@@ -62,7 +67,7 @@ const useLogin = ({ password: pwd, username: user }: TLoginInfo) => {
         }
       } else {
         const err = alertErr(error);
-        setErrRes(err); //TODO: i need the helper function to handle errors from server as its schema, no just show error from ZOD validation
+        setErrRes(err); //TODO: i need the helper function to handle errors from server as its schema, no just show error from ZOD validation and wrong password
         setTimeout(() => setErrRes([]), 6000);
       }
     } finally {

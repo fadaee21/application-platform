@@ -17,7 +17,7 @@ export default function ListBoxSelect({
 }: IProps) {
   return (
     <Listbox value={selected} onChange={setSelected}>
-      <div className="relative mt-1">
+      <div className="relative mt-1 w-full">
         <Listbox.Button className="relative w-full py-2 pl-10 pr-3 text-right bg-gray-100 rounded-lg shadow-md cursor-default dark:bg-gray-700 focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm">
           <span className="absolute inset-y-0 flex items-center pr-2 pointer-events-none left-2">
             <ChevronDown className="w-5 h-5 text-gray-400" aria-hidden="true" />

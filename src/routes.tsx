@@ -8,6 +8,7 @@ import RequireAuth from "@components/auth/RequireAuth";
 import PersistLogin from "@components/auth/PersistLogin";
 import RootLayout from "@components/layout/RootLayout";
 import NotFoundPage from "@pages/not-found/NotFoundPage";
+import Transactions from "./pages/registered-account/Transactions";
 
 const router = createBrowserRouter([
   {
@@ -29,27 +30,33 @@ const router = createBrowserRouter([
               },
               {
                 path: "registered-account",
-                element: <RegisteredAccount />,
+
+                children: [
+                  {
+                    index: true,
+                    element: <RegisteredAccount />,
+                  },
+                  {
+                    path: ":id",
+                    element: <Transactions />,
+                  },
+                ],
               },
+            ],
+          },
+          {
+            path: "user",
+            element: <RequireAuth allowedRoles={["USER"]} />,
+            children: [
               {
-                path: "projects",
+                index: true,
                 element: <ProjectsPage />,
               },
             ],
           },
-          // {
-          //   path: "user",
-          //   element: <RequireAuth allowedRoles={["user"]} />,
-          //   children: [
-          //     {
-          //       index: true,
-          //       element: <TestPageUser />,
-          //     },
-          //   ],
-          // },
           {
             path: "settings",
-            element: <RequireAuth allowedRoles={["SUPERUSER"]} />, //add all allowed roles
+            element: <RequireAuth allowedRoles={["SUPERUSER", "USER"]} />, //add all allowed roles
             children: [
               {
                 index: true,

@@ -2,7 +2,8 @@ import useSWR from "swr";
 import Pagination from "../ui-kit/Pagination";
 import { useState } from "react";
 import { LoadingSpinnerTable } from "../ui-kit/LoadingSpinner";
-
+import { useSearchParams } from "react-router-dom";
+import router from "@/routes";
 
 interface IProps {
   selectedOption: {
@@ -13,12 +14,21 @@ interface IProps {
 const pageSize = 20;
 
 const TableContent = ({ selectedOption }: IProps) => {
+  const [, setSearchParams] = useSearchParams();
   const [page, setPage] = useState(1);
 
+  const selectedOptionValue = selectedOption?.value;
   const { data, isLoading } = useSWR<ResponseData<User>>(
-    `/panel/accounts/get/${selectedOption?.value}/${page - 1}/${pageSize}`
+    `/panel/accounts/get/${selectedOptionValue}/${page - 1}/${pageSize}`
   );
   const totalElements = data?.body.totalElements || 0;
+  const handleClick = (id: number) => {
+    setSearchParams({ id: id.toString(), showModal: "true" });
+  };
+
+  const handleNavigate = (id: number) => {
+    router.navigate(`${id}`);
+  };
 
   return (
     <>
@@ -67,6 +77,14 @@ const TableContent = ({ selectedOption }: IProps) => {
                   >
                     کد ملی
                   </th>
+                  {selectedOptionValue === "registered" && (
+                    <th
+                      scope="col"
+                      className="px-6 py-3 text-xs font-medium tracking-wider text-center uppercase text-slate-700 dark:text-slate-300"
+                    >
+                      عملیات
+                    </th>
+                  )}
                 </tr>
               </thead>
               <tbody className="bg-gray-100 divide-y divide-gray-200 dark:bg-gray-700 dark:divide-gray-700">
@@ -95,17 +113,17 @@ const TableContent = ({ selectedOption }: IProps) => {
                     ) : (
                       data.body.content.map((user) => {
                         const {
-                          // birthDate,
                           first_name,
                           last_name,
                           mobile,
                           national_code,
                           username,
+                          id,
                         } = user;
                         return (
-                          <tr key={username}>
-                            <td className="px-6 py-4 text-center whitespace-nowrap">
-                              <div className="text-sm text-slate-700 dark:text-slate-300">
+                          <tr key={id}>
+                            <td className="px-6 py-4 text-center whitespace-nowrap ">
+                              <div className="text-sm text-slate-700 dark:text-slate-300 ">
                                 {first_name || "-"}
                               </div>
                             </td>
@@ -114,11 +132,6 @@ const TableContent = ({ selectedOption }: IProps) => {
                                 {last_name || "-"}
                               </div>
                             </td>
-                            {/* <td className="px-6 py-4 text-center whitespace-nowrap">
-                              <div className="text-sm text-slate-700 dark:text-slate-300">
-                                {birthDate || "-"}
-                              </div>
-                            </td> */}
                             <td className="px-6 py-4 text-center whitespace-nowrap">
                               <div className="text-sm text-slate-700 dark:text-slate-300">
                                 {username || "-"}
@@ -129,16 +142,28 @@ const TableContent = ({ selectedOption }: IProps) => {
                                 {mobile || "-"}
                               </div>
                             </td>
-                            {/* <td className="px-6 py-4 text-center whitespace-nowrap">
-                  <div className="text-sm text-slate-700 dark:text-slate-300">
-                    {email || "-"}
-                  </div>
-                </td> */}
                             <td className="px-6 py-4 text-center whitespace-nowrap">
                               <div className="text-sm text-slate-700 dark:text-slate-300">
                                 {national_code || "-"}
                               </div>
                             </td>
+                            {selectedOptionValue === "registered" && (
+                              <td className="px-6 py-4 text-center whitespace-nowrap flex gap-2 justify-center">
+                                <div className="text-sm text-slate-700 dark:text-slate-300">
+                                  <button onClick={() => handleClick(user.id)}>
+                                    شبا
+                                  </button>
+                                </div>
+                                |
+                                <div className="text-sm text-slate-700 dark:text-slate-300">
+                                  <button
+                                    onClick={() => handleNavigate(user.id)}
+                                  >
+                                    تراکنش ها
+                                  </button>
+                                </div>
+                              </td>
+                            )}
                           </tr>
                         );
                       })

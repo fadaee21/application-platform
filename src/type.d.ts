@@ -24,7 +24,7 @@ interface AuthContextType {
 interface IAuth {
   user: string;
   pwd: string;
-  roles: Role[];
+  roles: Role;
   accessToken: string;
 }
 type TAllowRoles = {
@@ -73,13 +73,24 @@ type ResponseData<T> = {
 };
 
 type User = {
+  id: number;
   first_name: string;
   last_name: string;
-  // birthDate: string;
   username: string;
   mobile: string;
-  email: string;
+  email: string | null;
   national_code: null | string;
+  status: string;
+  last_login_at: string;
+};
+
+type Transaction = {
+  id: number;
+  amount: number;
+  currency: null;
+  status: "created" | "gatewayInit" | "paid" | "reversed" | "success";
+  gateway_type: "ezpay";
+  created_at: string;
 };
 
 /*=========================================

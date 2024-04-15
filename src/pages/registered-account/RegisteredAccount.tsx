@@ -1,28 +1,48 @@
+import ModalSheba from "@/components/registered-accounts/ModalSheba";
 import TableContentAccounts from "@/components/registered-accounts/TableContentAccounts";
+import ModalSKeleton from "@/components/ui-kit/ModalSkeleton";
 import ListBoxSelect from "@/components/ui-kit/select-box/ListBoxSelect";
 import { useState } from "react";
+import { useSearchParams } from "react-router-dom";
 
 const RegisteredAccount = () => {
   const [selectedOption, setSelectedOption] = useState<
     (typeof options)[number] | null
   >(options[0]);
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const closeModal = () =>
+    setSearchParams((prevParams) => {
+      const updatedSearchParams = new URLSearchParams(prevParams);
+      updatedSearchParams.delete("showModal");
+      updatedSearchParams.delete("id");
+      return updatedSearchParams;
+    });
 
   return (
-    <div className="flex flex-col">
-      <div className="max-w-2xl mb-10">
-        <ListBoxSelect
-          items={options}
-          selected={selectedOption}
-          setSelected={setSelectedOption}
-        />
+    <>
+      <div className="flex flex-col">
+        <div className="max-w-md mb-10 flex justify-start items-center">
+          <h6 className="ml-4 sm:text-lg text-base font-bold text-slate-700 dark:text-slate-300">
+            وضعیت:
+          </h6>
+          <ListBoxSelect
+            items={options}
+            selected={selectedOption}
+            setSelected={setSelectedOption}
+          />
+        </div>
+
+        <TableContentAccounts selectedOption={selectedOption} />
       </div>
-      {selectedOption && (
-        <h6 className="mb-2 text-base font-bold text-slate-700 dark:text-slate-300">
-          {header[selectedOption.value]}
-        </h6>
-      )}
-      <TableContentAccounts selectedOption={selectedOption} />
-    </div>
+      <ModalSKeleton
+        title="لیست شبا"
+        closeModal={closeModal}
+        isShow={searchParams.get("showModal") === "true"}
+      >
+        <ModalSheba />
+      </ModalSKeleton>
+    </>
   );
 };
 
@@ -35,10 +55,10 @@ const options = [
   { value: "unmatched/birthDate", label: "عدم احراز ثبت احوال" },
 ];
 
-const header: { [key: string]: string } = {
-  registered: "کاربرانی که ثبت نام کرده‌اند",
-  unregistered: "کاربرانی که هنوز ثبت نام نکرده‌اند",
-  "unmatched/mobile": "کاربرانی که موبایل و کد ملی آن‌ها تطابق ندارد",
-  "unmatched/birthDate":
-    "کاربرانی که تاریخ تولد آن‌ها با اطلاعات ثبت احوال تطابق ندارد",
-};
+// const header: { [key: string]: string } = {
+//   registered: "کاربرانی که ثبت نام کرده‌اند",
+//   unregistered: "کاربرانی که هنوز ثبت نام نکرده‌اند",
+//   "unmatched/mobile": "کاربرانی که موبایل و کد ملی آن‌ها تطابق ندارد",
+//   "unmatched/birthDate":
+//     "کاربرانی که تاریخ تولد آن‌ها با اطلاعات ثبت احوال تطابق ندارد",
+// };

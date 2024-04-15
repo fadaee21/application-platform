@@ -25,8 +25,8 @@ const Pagination = ({ onPageChange, totalCount, siblingCount = 1, currentPage, p
     const onPrevious = () => onPageChange(currentPage - 1);
     const lastPage = paginationRange[paginationRange.length - 1];
     return (
-        <ul className={"flex list-none border justify-center align-middle my-10 "}>
-            <li className={`px-3 h-8 text-center my-auto mx-1 text-black flex items-center rounded-full ${currentPage === 1 ? 'cursor-default' : 'hover:bg-gray-100 cursor-pointer'}`}
+        <ul className={"flex list-none justify-center align-middle my-10 "}>
+            <li className={`px-3 h-8 text-center my-auto mx-1 text-slate-700 dark:text-slate-300 flex items-center rounded-full ${currentPage === 1 ? 'cursor-default' : 'hover: cursor-pointer'}`}
             >
                 <button onClick={onPrevious}
                     disabled={currentPage === 1}>
@@ -36,12 +36,12 @@ const Pagination = ({ onPageChange, totalCount, siblingCount = 1, currentPage, p
             </li>
             {paginationRange.map((pageNumber: number | string) => {
                 if (pageNumber === DOTS) {
-                    return <li className="flex items-center h-8 px-3 mx-1 my-auto text-center text-black rounded-full cursor-default">…</li>;
+                    return <li className="flex items-center h-8 px-3 mx-1 my-auto text-center text-slate-700 dark:text-slate-300 rounded-full cursor-default">…</li>;
                 }
 
                 return (
                     <li
-                        className={`px-3 h-8 text-center my-auto mx-1 text-black flex items-center rounded-full ${pageNumber === currentPage ? 'bg-gray-200' : 'hover:bg-gray-100 cursor-pointer'}`}
+                        className={`px-3 h-8 text-center my-auto mx-1 text-slate-700 dark:text-slate-300 flex items-center rounded-full ${pageNumber === currentPage ? 'bg-gray-300 dark:bg-slate-800/30' : 'hover: cursor-pointer'}`}
                         onClick={() => onPageChange(+pageNumber)}
                         key={pageNumber}
                     >
@@ -50,7 +50,7 @@ const Pagination = ({ onPageChange, totalCount, siblingCount = 1, currentPage, p
                 );
             })}
             <li
-                className={`px-3 h-8 text-center my-auto mx-1 text-black flex items-center rounded-full ${currentPage === lastPage ? 'cursor-default' : 'hover:bg-gray-100 cursor-pointer'}`}
+                className={`px-3 h-8 text-center my-auto mx-1 text-slate-700 dark:text-slate-300 flex items-center rounded-full ${currentPage === lastPage ? 'cursor-auto' : 'hover: cursor-pointer'}`}
                 onClick={onNext}
             >
                 <button onClick={onPrevious}
