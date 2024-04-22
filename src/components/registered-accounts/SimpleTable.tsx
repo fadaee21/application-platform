@@ -1,4 +1,3 @@
-
 import { LoadingSpinnerTable } from "../ui-kit/LoadingSpinner";
 
 interface IProps {
@@ -11,15 +10,7 @@ interface IProps {
   totalElements: number;
 }
 
-
 const SimpleTable = ({ data, headers, isLoading, totalElements }: IProps) => {
-
-  //   const selectedOptionValue = selectedOption?.value;
-
-  //   const { data, isLoading } = useSWR<ResponseData<User>>(
-  //     `/panel/accounts/get/${selectedOptionValue}/${page - 1}/${pageSize}`
-  //   );
-
   return (
     <>
       <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -85,7 +76,6 @@ const SimpleTable = ({ data, headers, isLoading, totalElements }: IProps) => {
           </div>
         </div>
       </div>
- 
     </>
   );
 };
