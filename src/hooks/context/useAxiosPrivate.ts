@@ -1,8 +1,7 @@
-import useRefreshToken from "./useRefreshToken";
-import { useAuth } from "./useAuth";
-import Cookies from "js-cookie";
 import { useEffect } from "react";
 import axiosPrivate from "@/services/axios";
+import useRefreshToken from "./useRefreshToken";
+import { useAuth } from "./useAuth";
 
 const useAxiosPrivate = () => {
   const refresh = useRefreshToken();
@@ -11,7 +10,7 @@ const useAxiosPrivate = () => {
   useEffect(() => {
     const requestIntercept = axiosPrivate.interceptors.request.use(
       (config) => {
-        if (auth?.accessToken) {
+        if (auth?.accessToken && !config.headers["Authorization"]) {
           config.headers["Authorization"] = `Bearer ${auth.accessToken}`;
         }
         return config;
@@ -22,17 +21,24 @@ const useAxiosPrivate = () => {
     const responseIntercept = axiosPrivate.interceptors.response.use(
       (response) => response,
       async (error) => {
-        console.log({ error });
         const originalRequest = error?.config;
+
         if (error.response?.status === 401 && !originalRequest._retry) {
-          console.count("first");
           originalRequest._retry = true;
-          const newAccessToken = await refresh();
-          console.log({ newAccessToken });
-          Cookies.remove("accessToken");
-          originalRequest.headers["Authorization"] = `Bearer ${newAccessToken}`;
-          return axiosPrivate(originalRequest);
+          try {
+            const newAccessToken = await refresh();
+            if (newAccessToken) {
+              originalRequest.headers[
+                "Authorization"
+              ] = `Bearer ${newAccessToken}`;
+
+              return axiosPrivate(originalRequest);
+            }
+          } catch (err) {
+            return Promise.reject(err);
+          }
         }
+
         return Promise.reject(error);
       }
     );
@@ -41,8 +47,7 @@ const useAxiosPrivate = () => {
       axiosPrivate.interceptors.request.eject(requestIntercept);
       axiosPrivate.interceptors.response.eject(responseIntercept);
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [refresh]);
+  }, [auth?.accessToken, refresh]);
 
   return axiosPrivate;
 };

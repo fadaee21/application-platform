@@ -12,11 +12,11 @@ import {
 } from "@/components/banner/variablesBanner";
 import { PrimaryButtons } from "@/components/ui-kit/buttons/PrimaryButtons";
 
-const NewBanner = () => {
+const NewBanner = ({idx}:{idx: number}) => {
   const [name, setName] = useState("");
   const [position, setPosition] = useState<SelectedOption | null>(null);
   const [height, setHeight] = useState<SelectedOption | null>(null);
-
+console.log({idx})
   const createNewBanner = async () => {
     try {
       const res = await axiosInstance.post("/panel/banner/add", {

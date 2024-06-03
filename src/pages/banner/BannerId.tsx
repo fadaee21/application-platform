@@ -5,7 +5,7 @@ import { useParams } from "react-router-dom";
 import useSWR from "swr";
 import ImageUploader from "@/components/ui-kit/ImageUploader";
 import { useState } from "react";
-import {axiosInstance} from "@/services/axios";
+import { axiosInstance } from "@/services/axios";
 import { toast } from "react-toastify";
 
 const LENGTH_IMAGE_PLACEHOLDER = 5;
@@ -77,7 +77,7 @@ const BannerId = () => {
                 </PrimaryButtons>
               </>
             ) : (
-              <ImageUploader cb={mutate} />
+              <ImageUploader cb={mutate} idx={i} />
             )}
           </div>
         ))}

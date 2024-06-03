@@ -19,11 +19,11 @@ const imageSchema = z.object({
   }),
 });
 
-const ImageUploader: React.FC<{ cb?: () => void }> = ({ cb }) => {
+const ImageUploader: React.FC<{ cb?: () => void; idx?: number }> = ({ cb,idx }) => {
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [uploading, setUploading] = useState<boolean>(false);
-
+console.log({idx})
   const ref = useRef<HTMLInputElement>(null);
 
   const handleDragOver = (event: React.DragEvent<HTMLDivElement>) => {

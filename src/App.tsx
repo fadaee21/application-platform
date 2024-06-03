@@ -9,7 +9,7 @@ function App() {
   return (
     <SWRConfig
       value={{
-        revalidateOnFocus: true,
+        revalidateOnFocus: false,
         fetcher: fetcherGet,
         onErrorRetry({ retryCount }) {
           if (retryCount > 4) return;
