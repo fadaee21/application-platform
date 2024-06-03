@@ -1,11 +1,11 @@
 import React, { useRef, useState } from "react";
-import {axiosInstance} from "@/services/axios";
 import { z } from "zod";
-import { toast, ToastContainer } from "react-toastify";
+// import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Plus from "@/assets/icons/plus.svg?react";
 import { LinkButton } from "./buttons/LinkButton";
 import { PrimaryButtons } from "./buttons/PrimaryButtons";
+import useAxiosPrivate from "@/hooks/context/useAxiosPrivate";
 
 const imageSchema = z.object({
   size: z.number().max(5000000, "Image size must be less than 5MB"),
@@ -19,11 +19,17 @@ const imageSchema = z.object({
   }),
 });
 
-const ImageUploader: React.FC<{ cb?: () => void; idx?: number }> = ({ cb,idx }) => {
+const ImageUploader: React.FC<{
+  cb?: () => void;
+  imageIndex?: number;
+  bannerId?: string;
+}> = ({ cb, imageIndex, bannerId }) => {
+  const axiosPrivate = useAxiosPrivate();
+
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [uploading, setUploading] = useState<boolean>(false);
-console.log({idx})
+  console.log({ imageIndex });
   const ref = useRef<HTMLInputElement>(null);
 
   const handleDragOver = (event: React.DragEvent<HTMLDivElement>) => {
@@ -49,7 +55,8 @@ console.log({idx})
         const errors = imageValidation.error.errors
           .map((error) => error.message)
           .join(", ");
-        toast.error(errors);
+        console.log(errors);
+        // toast.error(errors);
         return;
       }
 
@@ -65,18 +72,26 @@ console.log({idx})
 
   const handleImageUpload = async () => {
     if (!selectedImage) return;
-    const formData = new FormData();
-    formData.append("image", selectedImage);
+    const bodyContent = new FormData();
+    bodyContent.append("file", selectedImage);
     setUploading(true);
     try {
-      await axiosInstance.post("/api/upload", formData);
+      await axiosPrivate.post(
+        `/panel/banner/add/image/${bannerId}`,
+        bodyContent, // Pass FormData directly
+        {
+          headers: {
+            "Content-Type": "multipart/form-data", // Set the correct content type
+          },
+        }
+      );
       cb?.();
-      toast.success("Image uploaded successfully!");
+      // toast.success("Image uploaded successfully!");
       setSelectedImage(null);
       setPreviewUrl(null);
     } catch (error) {
       console.error("Error uploading image:", error);
-      toast.error("Failed to upload image.");
+      // toast.error("Failed to upload image.");
     } finally {
       setUploading(false);
     }
@@ -131,7 +146,7 @@ console.log({idx})
         </div>
       )}
 
-      <ToastContainer />
+      {/* <ToastContainer /> */}
     </>
   );
 };
