@@ -1,11 +1,11 @@
-import useRefreshToken from "@/hooks/context/useRefreshToken"
+// import useRefreshToken from "@/hooks/context/useRefreshToken"
 
 const DashboardPage = () => {
-  const refresh = useRefreshToken()
+  // const refresh = useRefreshToken()
   return (
     <div>DashboardPage
 
-      <button onClick={() => refresh?.()}>Refresh</button>
+      {/* <button onClick={() => refresh?.()}>Refresh</button> */}
     </div>
   )
 }
