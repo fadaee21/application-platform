@@ -1,47 +1,40 @@
-import { Outlet } from "react-router-dom";
 import { useState, useEffect } from "react";
 import useRefreshToken from "@/hooks/context/useRefreshToken";
 import { useAuth } from "@/hooks/context/useAuth";
+import { Outlet } from "react-router-dom";
 
-const PersistLogin = () => {
-  const [isLoading, setIsLoading] = useState(true);
-  const refresh = useRefreshToken();
+const usePersistLogin = () => {
   const { auth, persist } = useAuth();
+  const [isLoading, setIsLoading] = useState(!auth?.accessToken && persist);
+  const refresh = useRefreshToken();
 
   useEffect(() => {
-    let isMounted = true;
-    console.count("persistLogging is running");
     const verifyRefreshToken = async () => {
       try {
-        await refresh?.();
+        await refresh();
       } catch (err) {
         console.error(err);
       } finally {
-        if (isMounted) {
-          setIsLoading(false);
-        }
+        setIsLoading(false);
       }
     };
 
-    !auth?.accessToken && persist ? verifyRefreshToken() : setIsLoading(false);
+    if (isLoading) {
+      verifyRefreshToken();
+    }
+  }, [isLoading, refresh]);
 
-    return () => {
-      isMounted = false;
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  return isLoading;
+};
 
-  return (
-    <>
-      {!persist ? (
-        <Outlet />
-      ) : isLoading ? (
-        <p> PersistLogin Loading...</p>
-      ) : (
-        <Outlet />
-      )}
-    </>
-  );
+const PersistLogin = () => {
+  const isLoading = usePersistLogin();
+
+  if (isLoading) {
+    return <div>Loading...</div>; // or any other loading indicator
+  }
+
+  return <Outlet />;
 };
 
 export default PersistLogin;

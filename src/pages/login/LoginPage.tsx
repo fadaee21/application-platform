@@ -67,14 +67,14 @@ export default function LoginPage() {
   return (
     <>
       <div className="flex items-center justify-center min-h-screen bg-gray-200 dark:bg-gray-900">
-        <div className="w-9/12 max-w-xl p-6 md:p-8 mx-auto bg-white rounded-md shadow-md dark:bg-gray-800">
+        <div className="w-9/12 max-w-xl p-6 mx-auto bg-white rounded-md shadow-md md:p-8 dark:bg-gray-800">
           <div className="w-full max-w-sm mx-auto">
             <img
               className="w-auto h-12 mx-auto"
               src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
               alt="Your Company"
             />
-            <h2 className="mt-10 text-xl sm:text-2xl xl:text-3xl font-bold leading-9 tracking-tight text-center text-gray-900 dark:text-slate-300">
+            <h2 className="mt-10 text-xl font-bold leading-9 tracking-tight text-center text-gray-900 sm:text-2xl xl:text-3xl dark:text-slate-300">
               ورود به حساب کاربری
             </h2>
           </div>
@@ -99,7 +99,7 @@ export default function LoginPage() {
                   onChange={handleChange}
                   state={loginInfo.password}
                   label="رمز ورود"
-                  icon={showPassword ? eye : eyeSlash}
+                  icon={showPassword ? eyeSlash : eye}
                   onClick={() => setShowPassword(!showPassword)}
                 />
               </div>
@@ -109,7 +109,7 @@ export default function LoginPage() {
               </PrimaryButtons>
               <CheckboxOne
                 isChecked={persist}
-                setIsChecked={setPersist}
+                onChange={() => setPersist(!persist)}
                 label="مرا به خاطر بسپار"
               />
             </form>

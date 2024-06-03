@@ -10,7 +10,7 @@ type Auth = {
 
 
 const Dropdown = memo(({ auth }: Auth) => {
-  console.count("drop down is running");
+  // console.count("drop down is running");
   const { setAuth } = useAuth();
   const handleLogout = () => {
     Cookies.remove("refreshToken");

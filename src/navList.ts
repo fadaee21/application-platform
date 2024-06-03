@@ -1,5 +1,7 @@
 import Dashboard from "@/assets/icons/dashboard.svg?react";
 import Team from "@/assets/icons/team.svg?react";
+import Adjustment from "@/assets/icons/adjustments-horizontal.svg?react";
+import Photo from "@/assets/icons/photo.svg?react";
 // import Projects from "@/assets/icons/projects.svg?react";
 // import Calendar from "@/assets/icons/calendar.svg?react";
 // import Document from "@/assets/icons/document.svg?react";
@@ -21,6 +23,20 @@ const navList = [
     name: "کاربران",
     href: "/superuser/registered-account",
     icon: Team,
+    role: "SUPERUSER",
+  },
+  {
+    id: "3a",
+    name: "بنر",
+    href: "/superuser/banners",
+    icon: Photo,
+    role: "SUPERUSER",
+  },
+  {
+    id: "4a",
+    name: "تنظیمات اپلیکیشن",
+    href: "/superuser/app-settings",
+    icon: Adjustment,
     role: "SUPERUSER",
   },
   {

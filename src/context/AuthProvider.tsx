@@ -9,7 +9,6 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({ children }: TChildren) => {
     const [auth, setAuth] = useState<IAuth | null>(null);
-    // const [persist, setPersist] = useState<boolean>(JSON.parse(localStorage.getItem("persist") || "false"));
     const [persist, setPersist] = useObjectLocalStorage("persist", true)
 
 

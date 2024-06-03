@@ -6,9 +6,9 @@ import { useState } from "react";
 import { useSearchParams } from "react-router-dom";
 
 const RegisteredAccount = () => {
-  const [selectedOption, setSelectedOption] = useState<
-    (typeof options)[number] | null
-  >(options[0]);
+  const [selectedOption, setSelectedOption] = useState<SelectedOption | null>(
+    options[0]
+  );
   const [searchParams, setSearchParams] = useSearchParams();
 
   const closeModal = () =>
@@ -23,13 +23,11 @@ const RegisteredAccount = () => {
     <>
       <div className="flex flex-col">
         <div className="max-w-md mb-10 flex justify-start items-center">
-          <h6 className="ml-4 sm:text-lg text-base font-bold text-slate-700 dark:text-slate-300">
-            وضعیت:
-          </h6>
           <ListBoxSelect
             items={options}
             selected={selectedOption}
             setSelected={setSelectedOption}
+            label="وضعیت"
           />
         </div>
 

@@ -6,7 +6,6 @@ interface IProps extends InputHTMLAttributes<HTMLInputElement> {
   id: string;
   label: string;
   icon?: React.SVGProps<SVGSVGElement>; // New prop for the icon source
-
   onClick?: () => void;
 }
 

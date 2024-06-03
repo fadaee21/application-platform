@@ -2,7 +2,7 @@ import MySwitch from "@/components/ui-kit/MySwitch";
 import { useTheme } from "@/hooks/context/useTheme";
 
 const SettingPage = () => {
-  const { isDark } = useTheme();
+  const { isDark, toggleTheme } = useTheme();
   return (
     <div className="py-6 flex flex-col justify-center sm:py-12">
       <div className="relative py-3 sm:max-w-2xl sm:mx-auto">
@@ -19,7 +19,7 @@ const SettingPage = () => {
               <p className="text-gray-600 dark:text-slate-300">
                 حالت {isDark ? "تاریک" : "روشن"}
               </p>
-              <MySwitch />
+              <MySwitch checked={isDark} onChange={toggleTheme} />
             </div>
           </div>
         </div>

@@ -72,6 +72,18 @@ type ResponseData<T> = {
   is_successful: boolean;
 };
 
+type ResponseDataNoPagination<T> = {
+  timestamp: string;
+  body: T[];
+  is_successful: boolean;
+};
+
+type ResponseDataNoArray<T> = {
+  timestamp: string;
+  body: T;
+  is_successful: boolean;
+};
+
 type User = {
   id: number;
   first_name: string;
@@ -92,6 +104,29 @@ type Transaction = {
   gateway_type: "ezpay";
   created_at: string;
 };
+
+type IAutomaticRegistration = {
+  keyName: string;
+  value: string;
+  type: string;
+};
+type IFieldConfig = {
+  fieldName: string;
+  readOnly: boolean;
+  mandatory: boolean;
+  available: boolean;
+};
+
+interface IBanner {
+  id: number;
+  name: string;
+  width: number;
+  height: number;
+  position: string;
+}
+interface IBannerImg extends IBanner {
+  b64Images: string[];
+}
 
 /*=========================================
                                             

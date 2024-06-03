@@ -80,7 +80,8 @@ function Sidebar({ children }: TChildren) {
             onClick={() => console.log("bell")}
           />
           <div className="flex items-center pr-4 mr-4 border-r-2 border-slate-200 dark:border-slate-700">
-            <Avatar src="https://images.unsplash.com/photo-1491528323818-fdd1faba62cc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" />
+            {/* <Avatar src="https://images.unsplash.com/photo-1491528323818-fdd1faba62cc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" /> */}
+            <Avatar />
             <Dropdown auth={auth} />
           </div>
         </header>

@@ -9,6 +9,11 @@ import PersistLogin from "@components/auth/PersistLogin";
 import RootLayout from "@components/layout/RootLayout";
 import NotFoundPage from "@pages/not-found/NotFoundPage";
 import Transactions from "./pages/registered-account/Transactions";
+import AppSettings from "./pages/app-settings/AppSettings";
+import Banner from "./pages/banner/Banner";
+import BannerId from "./pages/banner/BannerId";
+import NewBanner from "./pages/banner/NewBanner";
+import Test from "./pages/test";
 
 const router = createBrowserRouter([
   {
@@ -42,6 +47,28 @@ const router = createBrowserRouter([
                   },
                 ],
               },
+
+              {
+                path: "app-settings",
+                element: <AppSettings />,
+              },
+              {
+                path: "banners",
+                children: [
+                  {
+                    index: true,
+                    element: <Banner />,
+                  },
+                  {
+                    path: ":id",
+                    element: <BannerId />,
+                  },
+                  {
+                    path: "new",
+                    element: <NewBanner />,
+                  },
+                ],
+              },
             ],
           },
           {
@@ -72,6 +99,10 @@ const router = createBrowserRouter([
     index: true,
     // loader: loginLoader,
     element: <LoginPage />,
+  },
+  {
+    path: "test",
+    element: <Test />,
   },
   {
     path: "*",

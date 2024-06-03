@@ -4,10 +4,11 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "./context/useAuth";
 import { loginInfoSchema } from "@/validator/loginInfoSchema";
 import Cookies from "js-cookie";
-import instance from "@/services/axios";
+
 import { jwtDecode } from "jwt-decode";
-import axios from "axios";
 import { getRole } from "@/helper/getRole";
+import { axiosInstance } from "@/services/axios";
+import axios from "axios";
 
 type TLoginInfo = {
   username: string;
@@ -29,7 +30,7 @@ const useLogin = ({ password: pwd, username: user }: TLoginInfo) => {
     setLoading(true);
     try {
       loginInfoSchema.safeParse({ pwd, user });
-      const response = await instance.post("/panel/login", {
+      const response = await axiosInstance.post("/panel/login", {
         password: pwd,
         username: user,
       });

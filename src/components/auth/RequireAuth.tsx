@@ -6,7 +6,7 @@ const RequireAuth = ({ allowedRoles }: TAllowRoles) => {
   const { auth } = useAuth();
   const location = useLocation();
   const isAllowedRole = useMemo(() => {
-    console.count("test useMemo");
+    // console.count("test useMemo");
     // return auth?.roles?.some((role) => allowedRoles?.includes(role));
     return allowedRoles?.some((allowedRole) => allowedRole === auth?.roles);
   }, [auth, allowedRoles]);
