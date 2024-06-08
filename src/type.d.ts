@@ -123,6 +123,7 @@ interface IBanner {
   width: number;
   height: number;
   position: string;
+  firstB64Image: string;
 }
 interface IBannerImg extends IBanner {
   b64Images: string[];
