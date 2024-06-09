@@ -5,17 +5,16 @@ import Plus from "@/assets/icons/plus.svg?react";
 import { LinkButton } from "./buttons/LinkButton";
 import { PrimaryButtons } from "./buttons/PrimaryButtons";
 import useAxiosPrivate from "@/hooks/context/useAxiosPrivate";
-import {  createBannerSchema } from "@/validator/uploadBannerImage";
+import { createBannerSchema } from "@/validator/uploadBannerImage";
 import { toast } from "react-toastify";
 
-
-
+const ALLOWED_WIDTH = 200;
 const ImageUploader: React.FC<{
   cb?: () => void;
   imageIndex?: number;
   bannerId?: string;
-  bannerHeight:number;
-}> = ({ cb, imageIndex, bannerId,bannerHeight }) => {
+  bannerHeight: number;
+}> = ({ cb, imageIndex, bannerId, bannerHeight }) => {
   const axiosPrivate = useAxiosPrivate();
 
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
@@ -35,15 +34,15 @@ const ImageUploader: React.FC<{
   };
 
   const validateAndSetImage = (file: File) => {
-    const bannerSchema = createBannerSchema(bannerHeight);
+    const bannerSchema = createBannerSchema(bannerHeight, ALLOWED_WIDTH);
     const img = new Image();
     img.src = URL.createObjectURL(file);
     img.onload = () => {
-      console.log(img.height);
       const imageValidation = bannerSchema.safeParse({
         size: file.size,
         type: file.type,
         height: img.height,
+        width: img.width,
       });
       if (!imageValidation.success) {
         const errors = imageValidation.error.errors

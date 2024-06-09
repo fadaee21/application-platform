@@ -9,7 +9,7 @@ function RootLayout() {
         position="bottom-right"
         autoClose={2500}
         rtl
-        toastStyle={{ width: 450 }}
+        className={"sm:w-96 w-full "} //TODO:change the style for different theme
       />
     </Sidebar>
   );
