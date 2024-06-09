@@ -87,7 +87,7 @@ const BannerId = () => {
                   className="object-fill w-full rounded-t-md mb-auto"
                 />
                 <PrimaryButtons
-                fullWidth
+                  fullWidth
                   onClick={() => handleImageRemove(i)}
                   disabled={removing}
                 >
@@ -95,7 +95,12 @@ const BannerId = () => {
                 </PrimaryButtons>
               </>
             ) : (
-              <ImageUploader cb={mutate} imageIndex={i} bannerId={bannerId} />
+              <ImageUploader
+                cb={mutate}
+                imageIndex={i}
+                bannerId={bannerId}
+                bannerHeight={data?.body.height}
+              />
             )}
           </div>
         ))}
