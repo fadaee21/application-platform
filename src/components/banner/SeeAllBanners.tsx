@@ -75,10 +75,14 @@ const SeeAllBanners = () => {
                   }
                 </p>
                 <div className="flex justify-between gap-1">
-                  <PrimaryButtons onClick={() => handleNavigate(item.id)}>
+                  <PrimaryButtons
+                    fullWidth
+                    onClick={() => handleNavigate(item.id)}
+                  >
                     مشاهده
                   </PrimaryButtons>
                   <PrimaryButtons
+                    fullWidth
                     onClick={() =>
                       setSearchParams({
                         delete_name: item.name,

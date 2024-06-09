@@ -42,7 +42,7 @@ const useLogin = ({ password: pwd, username: user }: TLoginInfo) => {
         Cookies.set("refreshToken", refreshToken, {
           path: "/",
           expires: 0.5,
-          secure: true,
+          secure: false, //TODO: Set this to true once the SSL configuration has been successfully completed and verified.
           sameSite: "strict",
         });
         console.log({ userInfo });

@@ -1,7 +1,4 @@
 import { useState } from "react";
-
-import axiosInstance from "@/services/axios";
-
 import router from "@/routes";
 import { mutate } from "swr";
 import { TextField } from "@/components/login/TextField";
@@ -11,14 +8,17 @@ import {
   bannerPosItems,
 } from "@/components/banner/variablesBanner";
 import { PrimaryButtons } from "@/components/ui-kit/buttons/PrimaryButtons";
+import useAxiosPrivate from "@/hooks/context/useAxiosPrivate";
+import ReturnButton from "@/components/ui-kit/buttons/ReturnButton";
 
-const NewBanner = () => {
+const CreateBanner = () => {
   const [name, setName] = useState("");
   const [position, setPosition] = useState<SelectedOption | null>(null);
   const [height, setHeight] = useState<SelectedOption | null>(null);
+  const axiosPrivate = useAxiosPrivate();
   const createNewBanner = async () => {
     try {
-      const res = await axiosInstance.post("/panel/banner/add", {
+      const res = await axiosPrivate.post("/panel/banner/add", {
         banner_name: name,
         position: position?.value || 0,
         height: height?.value || "",
@@ -33,40 +33,50 @@ const NewBanner = () => {
       console.log(error);
     }
   };
+
   return (
-    <div className="p-4  rounded shadow-md">
-      <p className="mb-4 text-lg font-semibold ">ایحاد بنر</p>
-      <div className="flex flex-col justify-start items-start space-y-8 w-fit ">
+    
+    <div className="max-w-xl mx-auto p-4 my-3 bg-white border border-gray-300 rounded-lg shadow-sm md:p-6 dark:border-gray-700 dark:bg-gray-800">
+      <div className="flex justify-between items-center mb-4">
+        <p className="text-lg font-semibold">ایجاد بنر</p>
+        <ReturnButton />
+
+      </div>
+      <div className="flex flex-col justify-start items-start w-full">
         <TextField
           id="name"
           placeholder="نام بنر"
-          label=""
+          label="نام "
           onChange={(e) => setName(e.target.value)}
           state={name}
+        
         />
 
+        <div className="w-full my-5">
         <ListBoxSelect
           selected={position}
           setSelected={setPosition}
           items={bannerPosItems}
           label="جایگاه بنر"
+          className="my-20"
         />
+        </div>
         <ListBoxSelect
           selected={height}
           setSelected={setHeight}
           items={bannerHeightItems}
           label="ارتفاع بنر"
+          className="mb-10"
         />
 
-        <PrimaryButtons onClick={createNewBanner}>ایجاد بنر</PrimaryButtons>
-        <PrimaryButtons
-         onClick={() => router.navigate(-1)}
-        >
-          بازگشت
-        </PrimaryButtons>
+        <div className="flex flex-col sm:flex-row justify-between items-center space-y-4 sm:space-y-0 sm:space-x-4 w-full">
+          <PrimaryButtons onClick={createNewBanner} fullWidth className="my-10">
+            ایجاد بنر
+          </PrimaryButtons>
+        </div>
       </div>
     </div>
   );
 };
 
-export default NewBanner;
+export default CreateBanner;
