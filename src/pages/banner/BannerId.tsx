@@ -8,17 +8,13 @@ import { toast } from "react-toastify";
 import useAxiosPrivate from "@/hooks/context/useAxiosPrivate";
 import clsx from "clsx";
 import { bannerPosItems } from "@/components/banner/variablesBanner";
-import router from "@/routes";
-import ChevronLeft from "@/assets/icons/chevron-left.svg?react";
+import ReturnButton from "@/components/ui-kit/buttons/ReturnButton";
 const LENGTH_IMAGE_PLACEHOLDER = 5;
 
 const BannerId = () => {
   const axiosPrivate = useAxiosPrivate();
   const [removing, setRemoving] = useState<boolean>(false);
   const { id: bannerId } = useParams();
-  const handleNavigate = () => {
-    router.navigate(-1);
-  };
 
   const { data, isLoading, mutate } = useSWR<ResponseDataNoArray<IBannerImg>>(
     `/panel/banner/get/${bannerId}`
@@ -63,12 +59,11 @@ const BannerId = () => {
 
   return (
     <div className="p-4 bg-slate-50 dark:bg-slate-700 text-slate-700 dark:text-slate-300">
-      <div className="flex items-center justify-between mb-4">
-        <h1 className="text-2xl font-semibold">{data?.body.name}</h1>
-        <PrimaryButtons onClick={handleNavigate} className="mt-4 w-36 flex items-center">
-          بازگشت
-          <ChevronLeft className="w-4 h-4 mr-4" />
-        </PrimaryButtons>
+      <div className="flex items-center justify-between mb-4 ">
+        <h1 className="text-2xl font-semibold whitespace-nowrap">
+          {data?.body.name}
+        </h1>
+        <ReturnButton />
       </div>
       <h6 className="text-xl">
         ارتفاع بنر {data?.body.height}px و موقعیت{" "}
