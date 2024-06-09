@@ -1,29 +1,20 @@
 import React, { useRef, useState } from "react";
-import { z } from "zod";
 // import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Plus from "@/assets/icons/plus.svg?react";
 import { LinkButton } from "./buttons/LinkButton";
 import { PrimaryButtons } from "./buttons/PrimaryButtons";
 import useAxiosPrivate from "@/hooks/context/useAxiosPrivate";
+import { createBannerSchema } from "@/validator/uploadBannerImage";
+import { toast } from "react-toastify";
 
-const imageSchema = z.object({
-  size: z.number().max(5000000, "Image size must be less than 5MB"),
-  type: z
-    .string()
-    .refine((type) => ["image/jpeg", "image/png"].includes(type), {
-      message: "Only JPEG and PNG images are allowed",
-    }),
-  height: z.number().refine((height) => height <= 2000, {
-    message: "Image height must be less than or equal to 2000 pixels",
-  }),
-});
-
+const ALLOWED_WIDTH = 200;
 const ImageUploader: React.FC<{
   cb?: () => void;
   imageIndex?: number;
   bannerId?: string;
-}> = ({ cb, imageIndex, bannerId }) => {
+  bannerHeight: number;
+}> = ({ cb, imageIndex, bannerId, bannerHeight }) => {
   const axiosPrivate = useAxiosPrivate();
 
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
@@ -43,20 +34,22 @@ const ImageUploader: React.FC<{
   };
 
   const validateAndSetImage = (file: File) => {
+    const bannerSchema = createBannerSchema(bannerHeight, ALLOWED_WIDTH);
     const img = new Image();
     img.src = URL.createObjectURL(file);
     img.onload = () => {
-      const imageValidation = imageSchema.safeParse({
+      const imageValidation = bannerSchema.safeParse({
         size: file.size,
         type: file.type,
         height: img.height,
+        width: img.width,
       });
       if (!imageValidation.success) {
         const errors = imageValidation.error.errors
           .map((error) => error.message)
           .join(", ");
         console.log(errors);
-        // toast.error(errors);
+        toast.error(errors);
         return;
       }
 

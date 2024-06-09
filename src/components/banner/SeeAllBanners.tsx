@@ -57,11 +57,29 @@ const SeeAllBanners = () => {
               key={item.id}
               className="sm:w-72 w-full m-1 bg-white dark:bg-slate-800 rounded-lg shadow-md overflow-hidden transition-transform duration-200 hover:transform hover:scale-105"
             >
-              <img
-                src={`data:image/png;base64,${item.firstB64Image}`}
-                alt="image"
-                className="w-full h-36 object-cover"
-              />
+              {item.firstB64Image ? (
+                <img
+                  src={`data:image/png;base64,${item.firstB64Image}`}
+                  alt="image"
+                  className="w-full h-36 object-cover"
+                />
+              ) : (
+                <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                style={{ height: '9rem', width: '100%', objectFit: 'contain' }} 
+              >
+                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                <polyline points="21 15 16 10 5 21"></polyline>
+              </svg>
+              
+              )}
               <div className="p-4">
                 <p className="text-xl font-bold mb-2 text-slate-700 dark:text-slate-300">
                   {item.name}
