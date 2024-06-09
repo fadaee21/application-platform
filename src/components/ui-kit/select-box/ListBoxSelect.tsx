@@ -43,7 +43,7 @@ export default function ListBoxSelect({
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
           >
-            <Listbox.Options className="absolute w-full py-1 mt-1 overflow-auto text-base bg-gray-100 rounded-md shadow-lg dark:bg-gray-700 max-h-60 ring-1 ring-black/5 focus:outline-none sm:text-sm">
+            <Listbox.Options className="absolute w-full py-1 mt-1 overflow-auto text-base bg-gray-100 rounded-md shadow-lg dark:bg-gray-700 max-h-60 ring-1 ring-black/5 focus:outline-none sm:text-sm z-10">
               {items.map((item, i) => (
                 <Listbox.Option
                   key={i}

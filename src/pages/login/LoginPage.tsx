@@ -104,7 +104,7 @@ export default function LoginPage() {
                 />
               </div>
 
-              <PrimaryButtons type="submit" disabled={loading}>
+              <PrimaryButtons type="submit" disabled={loading} fullWidth>
                 {loading ? <LoadingSpinnerButton /> : "ورود"}
               </PrimaryButtons>
               <CheckboxOne

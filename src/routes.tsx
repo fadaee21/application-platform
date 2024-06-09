@@ -12,7 +12,7 @@ import Transactions from "./pages/registered-account/Transactions";
 import AppSettings from "./pages/app-settings/AppSettings";
 import Banner from "./pages/banner/Banner";
 import BannerId from "./pages/banner/BannerId";
-import NewBanner from "./pages/banner/NewBanner";
+import CreateBanner from "./pages/banner/CreateBanner";
 import Test from "./pages/test";
 
 const router = createBrowserRouter([
@@ -65,7 +65,7 @@ const router = createBrowserRouter([
                   },
                   {
                     path: "new",
-                    element: <NewBanner />,
+                    element: <CreateBanner />,
                   },
                 ],
               },

@@ -87,6 +87,7 @@ const BannerId = () => {
                   className="object-fill w-full rounded-t-md mb-auto"
                 />
                 <PrimaryButtons
+                fullWidth
                   onClick={() => handleImageRemove(i)}
                   disabled={removing}
                 >

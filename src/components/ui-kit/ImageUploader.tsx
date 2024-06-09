@@ -135,12 +135,16 @@ const ImageUploader: React.FC<{
             <PrimaryButtons
               onClick={handleImageUpload}
               disabled={uploading}
-              className="w-full"
+              fullWidth
             >
               {uploading ? "Uploading..." : "بارگذاری"}
             </PrimaryButtons>
           )}
-          <PrimaryButtons onClick={handleImageRemove} disabled={!selectedImage}>
+          <PrimaryButtons
+            fullWidth
+            onClick={handleImageRemove}
+            disabled={!selectedImage}
+          >
             لغو
           </PrimaryButtons>
         </div>
