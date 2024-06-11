@@ -124,6 +124,7 @@ interface IBanner {
   height: number;
   position: string;
   firstB64Image: string;
+  enable: boolean;
 }
 interface IBannerImg extends IBanner {
   b64Images: string[];

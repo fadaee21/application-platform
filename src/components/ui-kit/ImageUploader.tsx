@@ -8,7 +8,7 @@ import useAxiosPrivate from "@/hooks/context/useAxiosPrivate";
 import { createBannerSchema } from "@/validator/uploadBannerImage";
 import { toast } from "react-toastify";
 
-const ALLOWED_WIDTH = 200;
+const ALLOWED_WIDTH = 350;
 const ImageUploader: React.FC<{
   cb?: () => void;
   imageIndex?: number;
