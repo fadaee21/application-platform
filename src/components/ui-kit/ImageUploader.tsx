@@ -7,6 +7,7 @@ import { PrimaryButtons } from "./buttons/PrimaryButtons";
 import useAxiosPrivate from "@/hooks/context/useAxiosPrivate";
 import { createBannerSchema } from "@/validator/uploadBannerImage";
 import { toast } from "react-toastify";
+import { LoadingSpinnerButton } from "./LoadingSpinner";
 
 const ALLOWED_WIDTH = 350;
 const ImageUploader: React.FC<{
@@ -35,27 +36,33 @@ const ImageUploader: React.FC<{
 
   const validateAndSetImage = (file: File) => {
     const bannerSchema = createBannerSchema(bannerHeight, ALLOWED_WIDTH);
-    const img = new Image();
-    img.src = URL.createObjectURL(file);
-    img.onload = () => {
-      const imageValidation = bannerSchema.safeParse({
-        size: file.size,
-        type: file.type,
-        height: img.height,
-        width: img.width,
-      });
-      if (!imageValidation.success) {
-        const errors = imageValidation.error.errors
-          .map((error) => error.message)
-          .join(", ");
-        console.log(errors);
-        toast.error(errors);
-        return;
-      }
 
-      setSelectedImage(file);
-      setPreviewUrl(URL.createObjectURL(file));
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const dataUrl = event.target?.result as string;
+      const img = new Image();
+      img.src = dataUrl;
+      img.onload = () => {
+        const imageValidation = bannerSchema.safeParse({
+          size: file.size,
+          type: file.type,
+          height: img.height,
+          width: img.width,
+        });
+        if (!imageValidation.success) {
+          const errors = imageValidation.error.errors
+            .map((error) => error.message)
+            .join(", ");
+          console.log(errors);
+          toast.error(errors);
+          return;
+        }
+
+        setSelectedImage(file);
+        setPreviewUrl(dataUrl);
+      };
     };
+    reader.readAsDataURL(file);
   };
 
   const handleImageSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -79,12 +86,12 @@ const ImageUploader: React.FC<{
         }
       );
       cb?.();
-      // toast.success("Image uploaded successfully!");
+      toast.success("تصویر با موفقیت آپلود شد");
       setSelectedImage(null);
       setPreviewUrl(null);
     } catch (error) {
       console.error("Error uploading image:", error);
-      // toast.error("Failed to upload image.");
+      toast.error("خطا در آپلود تصویر");
     } finally {
       setUploading(false);
     }
@@ -111,7 +118,7 @@ const ImageUploader: React.FC<{
           <img
             src={previewUrl}
             alt="Selected"
-            className="w-full h-24 rounded-t-md  object-cover place-self-start "
+            className="w-full h-24 rounded-t-md object-cover place-self-start"
           />
         )}
       </div>
@@ -130,7 +137,7 @@ const ImageUploader: React.FC<{
               disabled={uploading}
               fullWidth
             >
-              {uploading ? "Uploading..." : "بارگذاری"}
+              {uploading ? <LoadingSpinnerButton /> : "بارگذاری"}
             </PrimaryButtons>
           )}
           <PrimaryButtons
@@ -142,8 +149,6 @@ const ImageUploader: React.FC<{
           </PrimaryButtons>
         </div>
       )}
-
-      {/* <ToastContainer /> */}
     </>
   );
 };

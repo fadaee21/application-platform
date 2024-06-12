@@ -1,20 +1,20 @@
-import { LoadingSpinnerPage } from "@/components/ui-kit/LoadingSpinner";
-import { PrimaryButtons } from "@/components/ui-kit/buttons/PrimaryButtons";
+import { useState } from "react";
 import { useParams } from "react-router-dom";
 import useSWR from "swr";
-import ImageUploader from "@/components/ui-kit/ImageUploader";
-import { useState } from "react";
 import { toast } from "react-toastify";
-import useAxiosPrivate from "@/hooks/context/useAxiosPrivate";
 import clsx from "clsx";
+
+import { LoadingSpinnerButton, LoadingSpinnerPage } from "@/components/ui-kit/LoadingSpinner";
+import { PrimaryButtons } from "@/components/ui-kit/buttons/PrimaryButtons";
+import ImageUploader from "@/components/ui-kit/ImageUploader";
+import useAxiosPrivate from "@/hooks/context/useAxiosPrivate";
 import { bannerPosItems } from "@/components/banner/variablesBanner";
 import ReturnButton from "@/components/ui-kit/buttons/ReturnButton";
-const LENGTH_IMAGE_PLACEHOLDER = 5;
 
 const BannerId = () => {
   const axiosPrivate = useAxiosPrivate();
-  const [removing, setRemoving] = useState<boolean>(false);
   const { id: bannerId } = useParams();
+  const [removingIndexes, setRemovingIndexes] = useState<number[]>([]);
 
   const { data, isLoading, mutate } = useSWR<ResponseDataNoArray<IBannerImg>>(
     `/panel/banner/get/${bannerId}`
@@ -23,15 +23,12 @@ const BannerId = () => {
   if (isLoading) {
     return <LoadingSpinnerPage />;
   }
-  const { b64Images } = data?.body || {};
-  if (b64Images) {
-    while (b64Images.length < LENGTH_IMAGE_PLACEHOLDER) {
-      b64Images.push("");
-    }
-  }
+
+  const { b64Images = [] } = data?.body || {};
+  const imagesWithPlaceholder = [...b64Images, ""];
 
   const handleImageRemove = async (imageIndex: number) => {
-    setRemoving(true);
+    setRemovingIndexes((prev) => [...prev, imageIndex]);
     try {
       await axiosPrivate.delete(
         `/panel/banner/delete/image/${bannerId}/${imageIndex}`
@@ -42,7 +39,9 @@ const BannerId = () => {
       console.error("Error removing image:", error);
       toast.error("Failed to remove image.");
     } finally {
-      setRemoving(false);
+      setRemovingIndexes((prev) =>
+        prev.filter((index) => index !== imageIndex)
+      );
     }
   };
 
@@ -59,7 +58,7 @@ const BannerId = () => {
 
   return (
     <div className="p-4 bg-slate-50 dark:bg-slate-700 text-slate-700 dark:text-slate-300">
-      <div className="flex items-center justify-between mb-4 ">
+      <div className="flex items-center justify-between mb-4">
         <h1 className="text-2xl font-semibold whitespace-nowrap">
           {data?.body.name}
         </h1>
@@ -73,8 +72,8 @@ const BannerId = () => {
         }{" "}
         می باشد.
       </h6>
-      <div className="flex sm:justify-start justify-center flex-wrap gap-4 mt-4 ">
-        {data?.body.b64Images.map((item, i) => (
+      <div className="flex sm:justify-start justify-center flex-wrap gap-4 mt-4">
+        {imagesWithPlaceholder.map((item, i) => (
           <div
             key={i}
             className={`w-[220px] bg-white dark:bg-slate-800 rounded-md shadow-md overflow-hidden border flex flex-col items-center p-1 justify-start ${heightBanner}`}
@@ -89,9 +88,10 @@ const BannerId = () => {
                 <PrimaryButtons
                   fullWidth
                   onClick={() => handleImageRemove(i)}
-                  disabled={removing}
+                  disabled={removingIndexes.includes(i)}
+                  key={i}
                 >
-                  {removing ? "Removing..." : "حذف"}
+                  {removingIndexes.includes(i) ? <LoadingSpinnerButton/> : "حذف"}
                 </PrimaryButtons>
               </>
             ) : (
@@ -99,7 +99,7 @@ const BannerId = () => {
                 cb={mutate}
                 imageIndex={i}
                 bannerId={bannerId}
-                bannerHeight={data?.body.height}
+                bannerHeight={data?.body.height || 0}
               />
             )}
           </div>
