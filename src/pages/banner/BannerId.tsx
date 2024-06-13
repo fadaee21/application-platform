@@ -1,21 +1,13 @@
 import { LoadingSpinnerPage } from "@/components/ui-kit/LoadingSpinner";
-import { PrimaryButtons } from "@/components/ui-kit/buttons/PrimaryButtons";
 import { useParams } from "react-router-dom";
 import useSWR from "swr";
-import ImageUploader from "@/components/ui-kit/ImageUploader";
-import { useState } from "react";
-import { toast } from "react-toastify";
-import useAxiosPrivate from "@/hooks/context/useAxiosPrivate";
 import clsx from "clsx";
 import { bannerPosItems } from "@/components/banner/variablesBanner";
 import ReturnButton from "@/components/ui-kit/buttons/ReturnButton";
-const LENGTH_IMAGE_PLACEHOLDER = 5;
+import BannerCard from "@/components/banner/BannerCard";
 
 const BannerId = () => {
-  const axiosPrivate = useAxiosPrivate();
-  const [removing, setRemoving] = useState<boolean>(false);
   const { id: bannerId } = useParams();
-
   const { data, isLoading, mutate } = useSWR<ResponseDataNoArray<IBannerImg>>(
     `/panel/banner/get/${bannerId}`
   );
@@ -23,28 +15,15 @@ const BannerId = () => {
   if (isLoading) {
     return <LoadingSpinnerPage />;
   }
-  const { b64Images } = data?.body || {};
-  if (b64Images) {
-    while (b64Images.length < LENGTH_IMAGE_PLACEHOLDER) {
-      b64Images.push("");
-    }
-  }
+  // const { b64Images } = data?.body || {};
+  // if (b64Images) {
+  //   while (b64Images.length < LENGTH_IMAGE_PLACEHOLDER) {
+  //     b64Images.push("");
+  //   }
+  // }
 
-  const handleImageRemove = async (imageIndex: number) => {
-    setRemoving(true);
-    try {
-      await axiosPrivate.delete(
-        `/panel/banner/delete/image/${bannerId}/${imageIndex}`
-      );
-      mutate();
-      toast.success("Image removed successfully!");
-    } catch (error) {
-      console.error("Error removing image:", error);
-      toast.error("Failed to remove image.");
-    } finally {
-      setRemoving(false);
-    }
-  };
+  const { b64Images = [] } = data?.body || {};
+  const imagesWithPlaceholder = [...b64Images, ""];
 
   const heightBanner = clsx(
     {
@@ -73,37 +52,19 @@ const BannerId = () => {
         }{" "}
         می باشد.
       </h6>
-      <div className="flex sm:justify-start justify-center flex-wrap gap-4 mt-4 ">
-        {data?.body.b64Images.map((item, i) => (
-          <div
-            key={i}
-            className={`w-[220px] bg-white dark:bg-slate-800 rounded-md shadow-md overflow-hidden border flex flex-col items-center p-1 justify-start ${heightBanner}`}
-          >
-            {item ? (
-              <>
-                <img
-                  src={`data:image/png;base64,${item}`}
-                  alt="banner"
-                  className="object-fill w-full rounded-t-md mb-auto"
-                />
-                <PrimaryButtons
-                  fullWidth
-                  onClick={() => handleImageRemove(i)}
-                  disabled={removing}
-                >
-                  {removing ? "Removing..." : "حذف"}
-                </PrimaryButtons>
-              </>
-            ) : (
-              <ImageUploader
-                cb={mutate}
-                imageIndex={i}
-                bannerId={bannerId}
-                bannerHeight={data?.body.height}
-              />
-            )}
-          </div>
-        ))}
+      <div className="flex flex-wrap justify-center gap-4 mt-4 sm:justify-start ">
+        {data &&
+          imagesWithPlaceholder.map((b64Image, idx) => (
+            <BannerCard
+              b64Image={b64Image}
+              heightBanner={heightBanner}
+              bannerId={bannerId || ""}
+              mutate={mutate}
+              idx={idx}
+              key={idx}
+              height={data.body.height}
+            />
+          ))}
       </div>
     </div>
   );
