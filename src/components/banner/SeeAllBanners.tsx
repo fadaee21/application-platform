@@ -16,22 +16,23 @@ const SeeAllBanners = () => {
     position: "",
     enable: false,
   });
+  const [modalType, setModalType] = useState<"delete" | "activate">();
   const { data, isLoading, mutate } = useSWR<ResponseData<IBanner>>(
     `/panel/banner/get/all/0/100`
   );
   const [searchParams, setSearchParams] = useSearchParams();
+  const banner_id = searchParams.get("banner_id");
   const closeModal = () => {
     const updatedSearchParams = new URLSearchParams(searchParams);
-    updatedSearchParams.delete("delete_name");
-    updatedSearchParams.delete("activate_name");
+
     updatedSearchParams.delete("banner_id");
-    updatedSearchParams.delete("enable");
+    setModalType(undefined);
     setSearchParams(updatedSearchParams);
   };
   const handleRemove = async () => {
     try {
       const res = await axiosInstance.delete(
-        `/panel/banner/delete/${searchParams.get("banner_id")}`
+        `/panel/banner/delete/${banner_id}`
       );
       if (res.status === 200) {
         closeModal();
@@ -44,12 +45,9 @@ const SeeAllBanners = () => {
   };
   const handleActivation = async (enable: boolean) => {
     try {
-      const res = await axiosInstance.patch(
-        `/panel/banner/update/${searchParams.get("banner_id")}`,
-        {
-          bannerInfo,
-        }
-      );
+      const res = await axiosInstance.put(`/panel/banner/update/${banner_id}`, {
+        bannerInfo,
+      });
       if (res.status === 200) {
         closeModal();
         mutate();
@@ -132,12 +130,18 @@ const SeeAllBanners = () => {
                   </PrimaryButtons>
                   <PrimaryButtons
                     fullWidth
-                    onClick={() =>
+                    onClick={() => {
                       setSearchParams({
-                        delete_name: banner.name,
                         banner_id: banner.id.toString(),
-                      })
-                    }
+                      });
+                      setBannerInfo({
+                        enable: !banner.enable,
+                        height: banner.height,
+                        position: banner.position,
+                        name: banner.name,
+                      });
+                      setModalType("delete");
+                    }}
                   >
                     حذف
                   </PrimaryButtons>
@@ -155,6 +159,7 @@ const SeeAllBanners = () => {
                       position: banner.position,
                       name: banner.name,
                     });
+                    setModalType("activate");
                   }}
                 >
                   {banner.enable ? "غیرفعال شود" : "فعال شود"}
@@ -191,10 +196,10 @@ const SeeAllBanners = () => {
       <ModalSKeleton
         title="حذف بنر"
         closeModal={closeModal}
-        isShow={Boolean(searchParams.get("delete_name"))}
+        isShow={modalType === "delete"}
       >
         <p className="text-slate-700 dark:text-slate-300">
-          آيا مي خواهيد بنر {searchParams.get("delete_name")} را حذف کنيد؟
+          آيا مي خواهيد بنر {bannerInfo.name} را حذف کنيد؟
         </p>
         <div className="flex justify-end gap-4 mt-4">
           <PrimaryButtons onClick={closeModal}>خیر</PrimaryButtons>
@@ -204,10 +209,10 @@ const SeeAllBanners = () => {
       <ModalSKeleton
         title="فعالسازی بنر"
         closeModal={closeModal}
-        isShow={Boolean(searchParams.get("banner_id"))}
+        isShow={modalType === "activate"}
       >
         <p className="text-slate-700 dark:text-slate-300">
-          آيا مي خواهيد بنر {searchParams.get("banner_id")} را{" "}
+          آيا مي خواهيد بنر {bannerInfo.name} را{" "}
           {bannerInfo.enable ? "فعال" : "غیرفعال"} کنيد؟
         </p>
         <div className="flex justify-end gap-4 mt-4">
