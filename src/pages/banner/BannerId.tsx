@@ -4,7 +4,7 @@ import useSWR from "swr";
 import clsx from "clsx";
 import { bannerPosItems } from "@/components/banner/variablesBanner";
 import ReturnButton from "@/components/ui-kit/buttons/ReturnButton";
-import BannerCard from "@/components/banner/BannerCard";
+import BannerCardId from "@/components/banner/BannerCardId";
 
 const BannerId = () => {
   const { id: bannerId } = useParams();
@@ -55,7 +55,7 @@ const BannerId = () => {
       <div className="flex flex-wrap justify-center gap-4 mt-4 sm:justify-start ">
         {data &&
           imagesWithPlaceholder.map((b64Image, idx) => (
-            <BannerCard
+            <BannerCardId
               b64Image={b64Image}
               heightBanner={heightBanner}
               bannerId={bannerId || ""}

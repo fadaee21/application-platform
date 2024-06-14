@@ -3,55 +3,61 @@ import { LoadingSpinnerPage } from "../ui-kit/LoadingSpinner";
 import { PrimaryButtons } from "../ui-kit/buttons/PrimaryButtons";
 import router from "@/routes";
 import ModalSKeleton from "../ui-kit/ModalSkeleton";
-import { useSearchParams } from "react-router-dom";
 import axiosInstance from "@/services/axios";
-import { bannerPosItems } from "./variablesBanner";
 import { toast } from "react-toastify";
 import { useState } from "react";
+import BannerCard from "./BannerCard";
 
 const SeeAllBanners = () => {
-  const [bannerInfo, setBannerInfo] = useState({
-    name: "",
+  const [bannerInfo, setBannerInfo] = useState<IBannerPUT>({
+    banner_name: "",
     height: 0,
     position: "",
     enable: false,
+    id: 0,
+    actionType: "",
   });
-  const [modalType, setModalType] = useState<"delete" | "activate">();
   const { data, isLoading, mutate } = useSWR<ResponseData<IBanner>>(
     `/panel/banner/get/all/0/100`
   );
-  const [searchParams, setSearchParams] = useSearchParams();
-  const banner_id = searchParams.get("banner_id");
-  const closeModal = () => {
-    const updatedSearchParams = new URLSearchParams(searchParams);
 
-    updatedSearchParams.delete("banner_id");
-    setModalType(undefined);
-    setSearchParams(updatedSearchParams);
+  const closeModal = () => {
+    setBannerInfo({
+      banner_name: "",
+      height: 0,
+      position: "",
+      enable: false,
+      id: 0,
+      actionType: "",
+    });
   };
   const handleRemove = async () => {
+    const { id } = bannerInfo;
     try {
-      const res = await axiosInstance.delete(
-        `/panel/banner/delete/${banner_id}`
-      );
+      const res = await axiosInstance.delete(`/panel/banner/delete/${id}`);
       if (res.status === 200) {
         closeModal();
         mutate();
+        toast.success("بنر با موفقیت حذف شد");
       }
     } catch (error) {
       console.log(error);
       toast.error("مشکلی پیش آمد، دوباره تلاش کنید");
     }
   };
-  const handleActivation = async (enable: boolean) => {
+  const handleActivation = async () => {
+    const { id, enable, height, position, banner_name } = bannerInfo;
     try {
-      const res = await axiosInstance.put(`/panel/banner/update/${banner_id}`, {
-        bannerInfo,
+      const res = await axiosInstance.put(`/panel/banner/update/${id}`, {
+        height,
+        position,
+        banner_name,
+        enable: !enable,
       });
       if (res.status === 200) {
         closeModal();
         mutate();
-        toast.success(`بنر با موفقیت ${enable ? "فعال شد" : "غیرفعال شد"}`);
+        toast.success(`بنر با موفقیت ${enable ? "غیرفعال شد" : "فعال شد"}`);
       }
     } catch (error) {
       console.log(error);
@@ -59,17 +65,9 @@ const SeeAllBanners = () => {
     }
   };
 
-  const handleNavigate = (id: number, path?: string) => {
-    if (path) {
-      router.navigate(`${path}/${id}`);
-      return;
-    }
-    router.navigate(`${id}`);
-  };
+  if (isLoading || !data) return <LoadingSpinnerPage />;
 
-  if (isLoading) {
-    return <LoadingSpinnerPage />;
-  }
+  const banners = data.body.content;
 
   return (
     <>
@@ -78,94 +76,12 @@ const SeeAllBanners = () => {
           لیست بنر ها
         </p>
         <div className="flex flex-wrap gap-2">
-          {data?.body.content.map((banner) => (
-            <div
+          {banners.map((banner) => (
+            <BannerCard
+              banner={banner}
               key={banner.id}
-              className="w-full m-1 overflow-hidden transition-transform duration-200 bg-white rounded-lg shadow-md sm:w-72 dark:bg-slate-800 hover:transform hover:scale-105"
-            >
-              {banner.firstB64Image ? (
-                <img
-                  src={`data:image/png;base64,${banner.firstB64Image}`}
-                  alt="image"
-                  className="object-cover w-full h-36"
-                />
-              ) : (
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  style={{
-                    height: "9rem",
-                    width: "100%",
-                    objectFit: "contain",
-                  }}
-                >
-                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
-                  <circle cx="8.5" cy="8.5" r="1.5"></circle>
-                  <polyline points="21 15 16 10 5 21"></polyline>
-                </svg>
-              )}
-              <div className="p-4">
-                <p className="mb-2 text-xl font-bold text-slate-700 dark:text-slate-300">
-                  {banner.name}
-                </p>
-                <p className="mb-4 text-gray-600 dark:text-gray-400">
-                  ارتفاع بنر {banner.height}px - موقعیت{" "}
-                  {
-                    bannerPosItems.find(
-                      (element) => element.value === banner.position
-                    )?.label
-                  }
-                </p>
-                <div className="flex justify-between gap-2">
-                  <PrimaryButtons
-                    fullWidth
-                    onClick={() => handleNavigate(banner.id)}
-                  >
-                    مشاهده
-                  </PrimaryButtons>
-                  <PrimaryButtons
-                    fullWidth
-                    onClick={() => {
-                      setSearchParams({
-                        banner_id: banner.id.toString(),
-                      });
-                      setBannerInfo({
-                        enable: !banner.enable,
-                        height: banner.height,
-                        position: banner.position,
-                        name: banner.name,
-                      });
-                      setModalType("delete");
-                    }}
-                  >
-                    حذف
-                  </PrimaryButtons>
-                </div>
-                <PrimaryButtons
-                  className="my-2"
-                  fullWidth
-                  onClick={() => {
-                    setSearchParams({
-                      banner_id: banner.id.toString(),
-                    });
-                    setBannerInfo({
-                      enable: !banner.enable,
-                      height: banner.height,
-                      position: banner.position,
-                      name: banner.name,
-                    });
-                    setModalType("activate");
-                  }}
-                >
-                  {banner.enable ? "غیرفعال شود" : "فعال شود"}
-                </PrimaryButtons>
-              </div>
-            </div>
+              setBannerInfo={setBannerInfo}
+            />
           ))}
           <div
             onClick={() => router.navigate("new")}
@@ -196,10 +112,10 @@ const SeeAllBanners = () => {
       <ModalSKeleton
         title="حذف بنر"
         closeModal={closeModal}
-        isShow={modalType === "delete"}
+        isShow={bannerInfo.actionType === "delete"}
       >
         <p className="text-slate-700 dark:text-slate-300">
-          آيا مي خواهيد بنر {bannerInfo.name} را حذف کنيد؟
+          آيا مي خواهيد بنر {bannerInfo.banner_name} را حذف کنيد؟
         </p>
         <div className="flex justify-end gap-4 mt-4">
           <PrimaryButtons onClick={closeModal}>خیر</PrimaryButtons>
@@ -209,17 +125,15 @@ const SeeAllBanners = () => {
       <ModalSKeleton
         title="فعالسازی بنر"
         closeModal={closeModal}
-        isShow={modalType === "activate"}
+        isShow={bannerInfo.actionType === "activate"}
       >
         <p className="text-slate-700 dark:text-slate-300">
-          آيا مي خواهيد بنر {bannerInfo.name} را{" "}
-          {bannerInfo.enable ? "فعال" : "غیرفعال"} کنيد؟
+          آيا مي خواهيد بنر {bannerInfo.banner_name} را{" "}
+          {bannerInfo.enable ? "غیرفعال" : "فعال"} کنيد؟
         </p>
         <div className="flex justify-end gap-4 mt-4">
           <PrimaryButtons onClick={closeModal}>خیر</PrimaryButtons>
-          <PrimaryButtons onClick={() => handleActivation(true)}>
-            بله
-          </PrimaryButtons>
+          <PrimaryButtons onClick={handleActivation}>بله</PrimaryButtons>
         </div>
       </ModalSKeleton>
     </>

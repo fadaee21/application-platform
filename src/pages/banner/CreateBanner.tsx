@@ -10,6 +10,7 @@ import {
 import { PrimaryButtons } from "@/components/ui-kit/buttons/PrimaryButtons";
 import useAxiosPrivate from "@/hooks/context/useAxiosPrivate";
 import ReturnButton from "@/components/ui-kit/buttons/ReturnButton";
+import { toast } from "react-toastify";
 
 const CreateBanner = () => {
   const [name, setName] = useState("");
@@ -27,20 +28,20 @@ const CreateBanner = () => {
       if (res.status === 200) {
         router.navigate(-1);
         mutate(`/panel/banner/get/all/0/100`);
+        toast.success("بنر با موفقیت ایجاد شد");
       }
       console.log(res.data);
     } catch (error) {
       console.log(error);
+      toast.error("مشکلی پیش آمد، دوباره تلاش کنید");
     }
   };
 
   return (
-    
     <div className="max-w-xl mx-auto p-4 my-3 bg-white border border-gray-300 rounded-lg shadow-sm md:p-6 dark:border-gray-700 dark:bg-gray-800">
       <div className="flex justify-between items-center mb-4">
         <p className="text-lg font-semibold">ایجاد بنر</p>
         <ReturnButton />
-
       </div>
       <div className="flex flex-col justify-start items-start w-full">
         <TextField
@@ -49,17 +50,16 @@ const CreateBanner = () => {
           label="نام "
           onChange={(e) => setName(e.target.value)}
           state={name}
-        
         />
 
         <div className="w-full my-5">
-        <ListBoxSelect
-          selected={position}
-          setSelected={setPosition}
-          items={bannerPosItems}
-          label="جایگاه بنر"
-          className="my-20"
-        />
+          <ListBoxSelect
+            selected={position}
+            setSelected={setPosition}
+            items={bannerPosItems}
+            label="جایگاه بنر"
+            className="my-20"
+          />
         </div>
         <ListBoxSelect
           selected={height}
