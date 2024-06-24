@@ -14,6 +14,7 @@ import Banner from "./pages/banner/Banner";
 import BannerId from "./pages/banner/BannerId";
 import CreateBanner from "./pages/banner/CreateBanner";
 import Test from "./pages/test";
+import { Address } from "./pages/registered-account/Address";
 
 const router = createBrowserRouter([
   {
@@ -42,8 +43,12 @@ const router = createBrowserRouter([
                     element: <RegisteredAccount />,
                   },
                   {
-                    path: ":id",
+                    path: "transactions/:id",
                     element: <Transactions />,
+                  },
+                  {
+                    path: "address/:id",
+                    element: <Address />,
                   },
                 ],
               },

@@ -26,8 +26,8 @@ const TableContent = ({ selectedOption }: IProps) => {
     setSearchParams({ id: id.toString(), showModal: "true" });
   };
 
-  const handleNavigate = (id: number) => {
-    router.navigate(`${id}`);
+  const handleNavigate = (id: number, path: string) => {
+    router.navigate(`${path}/${id}`);
   };
 
   return (
@@ -157,9 +157,21 @@ const TableContent = ({ selectedOption }: IProps) => {
                                 |
                                 <div className="text-sm text-slate-700 dark:text-slate-300">
                                   <button
-                                    onClick={() => handleNavigate(user.id)}
+                                    onClick={() =>
+                                      handleNavigate(user.id, "transactions")
+                                    }
                                   >
                                     تراکنش ها
+                                  </button>
+                                </div>
+                                |
+                                <div className="text-sm text-slate-700 dark:text-slate-300">
+                                  <button
+                                    onClick={() =>
+                                      handleNavigate(user.id, "address")
+                                    }
+                                  >
+                                    آدرس
                                   </button>
                                 </div>
                               </td>
