@@ -122,9 +122,17 @@ interface IBanner {
   name: string;
   width: number;
   height: number;
-  position: string;
+  position: "UP" | "MID" | "BOT" | "";
   firstB64Image: string;
   enable: boolean;
+}
+interface IBannerPUT {
+  id: number;
+  height: number;
+  position: "UP" | "MID" | "BOT" | "";
+  enable: boolean;
+  banner_name: string;
+  actionType: "delete" | "activate" | "";
 }
 interface IBannerImg extends IBanner {
   b64Images: string[];

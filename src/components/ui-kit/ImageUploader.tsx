@@ -12,17 +12,15 @@ import { LoadingSpinnerButton } from "./LoadingSpinner";
 const ALLOWED_WIDTH = 350;
 const ImageUploader: React.FC<{
   cb?: () => void;
-  imageIndex?: number;
   bannerId?: string;
   bannerHeight: number;
-}> = ({ cb, imageIndex, bannerId, bannerHeight }) => {
+}> = ({ cb, bannerId, bannerHeight }) => {
   const axiosPrivate = useAxiosPrivate();
 
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [uploading, setUploading] = useState<boolean>(false);
-  console.log({ imageIndex });
-  const ref = useRef<HTMLInputElement>(null);
+  const ref = useRef<HTMLInputElement | null>(null);
 
   const handleDragOver = (event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault();
@@ -33,41 +31,37 @@ const ImageUploader: React.FC<{
     const file = event.dataTransfer.files[0];
     if (file) validateAndSetImage(file);
   };
-
-  const validateAndSetImage = (file: File) => {
-    const bannerSchema = createBannerSchema(bannerHeight, ALLOWED_WIDTH);
-
-    const reader = new FileReader();
-    reader.onload = (event) => {
-      const dataUrl = event.target?.result as string;
-      const img = new Image();
-      img.src = dataUrl;
-      img.onload = () => {
-        const imageValidation = bannerSchema.safeParse({
-          size: file.size,
-          type: file.type,
-          height: img.height,
-          width: img.width,
-        });
-        if (!imageValidation.success) {
-          const errors = imageValidation.error.errors
-            .map((error) => error.message)
-            .join(", ");
-          console.log(errors);
-          toast.error(errors);
-          return;
-        }
-
-        setSelectedImage(file);
-        setPreviewUrl(dataUrl);
-      };
-    };
-    reader.readAsDataURL(file);
-  };
-
   const handleImageSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) validateAndSetImage(file);
+    if (ref.current) ref.current.value = "";
+  };
+  const validateAndSetImage = (file: File) => {
+    const bannerSchema = createBannerSchema(bannerHeight, ALLOWED_WIDTH);
+    const previewUrl = URL.createObjectURL(file);
+
+    const img = new Image();
+    img.src = previewUrl;
+    img.onload = () => {
+      const imageValidation = bannerSchema.safeParse({
+        size: file.size,
+        type: file.type,
+        height: img.height,
+        width: img.width,
+      });
+      if (!imageValidation.success) {
+        const errors = imageValidation.error.errors
+          .map((error) => error.message)
+          .join(", ");
+        console.log(errors);
+        toast.error(errors);
+        return;
+      }
+
+      setSelectedImage(file);
+      setPreviewUrl(previewUrl);
+      return () => URL.revokeObjectURL(previewUrl);
+    };
   };
 
   const handleImageUpload = async () => {
@@ -78,20 +72,20 @@ const ImageUploader: React.FC<{
     try {
       await axiosPrivate.post(
         `/panel/banner/add/image/${bannerId}`,
-        bodyContent, // Pass FormData directly
+        bodyContent,
         {
           headers: {
-            "Content-Type": "multipart/form-data", // Set the correct content type
+            "Content-Type": "multipart/form-data",
           },
         }
       );
       cb?.();
-      toast.success("تصویر با موفقیت آپلود شد");
+      toast.success("عکس با موفقیت آپلود شد");
       setSelectedImage(null);
       setPreviewUrl(null);
     } catch (error) {
       console.error("Error uploading image:", error);
-      toast.error("خطا در آپلود تصویر");
+      toast.error("خطا در آپلود عکس");
     } finally {
       setUploading(false);
     }
@@ -105,7 +99,7 @@ const ImageUploader: React.FC<{
   return (
     <>
       <div
-        className="w-full h-full grid place-items-center"
+        className="grid w-full h-full place-items-center"
         onDragOver={handleDragOver}
         onDrop={handleDrop}
       >
@@ -118,7 +112,7 @@ const ImageUploader: React.FC<{
           <img
             src={previewUrl}
             alt="Selected"
-            className="w-full h-24 rounded-t-md object-cover place-self-start"
+            className="object-cover w-full h-24 rounded-t-md place-self-start "
           />
         )}
       </div>
@@ -130,7 +124,7 @@ const ImageUploader: React.FC<{
         onChange={handleImageSelect}
       />
       {previewUrl && (
-        <div className="w-full flex flex-col space-y-2">
+        <div className="flex flex-col w-full space-y-2">
           {(selectedImage || uploading) && (
             <PrimaryButtons
               onClick={handleImageUpload}
