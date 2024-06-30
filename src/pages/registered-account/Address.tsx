@@ -1,6 +1,10 @@
+import AddAddress from "@/components/registered-accounts/address/AddAddress";
 
 export const Address = () => {
   return (
-    <div>Address</div>
-  )
-}
+    <div>
+      Address
+      <AddAddress />
+    </div>
+  );
+};
